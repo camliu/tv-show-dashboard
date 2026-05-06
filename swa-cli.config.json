@@ -1,0 +1,12 @@
+{
+  "configurations": {
+    "tv-show-dashboard": {
+      "appLocation": ".",
+      "outputLocation": ".output/public",
+      "apiLocation": ".output/server",
+      "appBuildCommand": "pnpm build",
+      "run": "pnpm run dev",
+      "appDevserverUrl": "http://localhost:3000"
+    }
+  }
+}
