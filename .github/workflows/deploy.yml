@@ -1,21 +1,30 @@
-name: Azure Static Web Apps CI/CD
+name: Deploy
 
 on:
   push:
     branches:
       - main
+      
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
     branches:
       - main
 
 jobs:
+  check:
+    uses: ./.github/workflows/check.yml
+
   build_and_deploy_job:
+    needs: check
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           submodules: true
           lfs: false
