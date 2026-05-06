@@ -1,3 +1,5 @@
+import tailwindcss from '@tailwindcss/vite';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -8,9 +10,9 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/test-utils',
     '@nuxt/a11y',
-    '@nuxtjs/tailwindcss',
   ],
   devtools: { enabled: true },
+
   app: {
     head: {
       htmlAttrs: {
@@ -19,6 +21,9 @@ export default defineNuxtConfig({
       title: 'TV Show Dashboard',
     },
   },
+
+  css: ['./app/assets/css/main.css'],
+
   compatibilityDate: '2025-07-15',
 
   nitro: {
@@ -30,6 +35,12 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
   },
 
   eslint: {
