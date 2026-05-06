@@ -13,6 +13,8 @@ export default defineConfig<ConfigOptions>({
     trace: 'on-first-retry',
     nuxt: {
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      nuxtConfig: { nitro: { preset: 'node-server' } } as any,
     },
   },
   projects: [
