@@ -25,8 +25,11 @@
     "@nuxt/a11y": "1.0.0-alpha.1",
     "@nuxt/icon": "2.2.2",
     "@nuxt/image": "2.0.0",
+    "@primeuix/themes": "^2.0.3",
+    "@primevue/nuxt-module": "4.5.5",
     "@tailwindcss/vite": "^4.2.4",
     "nuxt": "^4.4.4",
+    "primevue": "^4.5.5",
     "tailwindcss": "^4.2.4",
     "vue": "^3.5.33",
     "vue-router": "^5.0.6"

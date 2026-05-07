@@ -1,4 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
+import {
+  primeVueConfig,
+} from './configs/primevue';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -10,15 +13,30 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/test-utils',
     '@nuxt/a11y',
+    '@primevue/nuxt-module',
   ],
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+  },
 
   app: {
     head: {
       htmlAttrs: {
         lang: 'en',
       },
-      title: 'TV Show Dashboard',
+      title: 'TV Show',
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/favicon.svg',
+        },
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon.ico',
+        },
+      ],
     },
   },
 
@@ -44,6 +62,10 @@ export default defineNuxtConfig({
   },
 
   eslint: {
-    config: { stylistic: true },
+    config: {
+      stylistic: true,
+    },
   },
+
+  primevue: primeVueConfig,
 });
