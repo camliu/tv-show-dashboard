@@ -7,7 +7,7 @@ export default withNuxt({
     '@stylistic/comma-dangle': ['error', 'always-multiline'],
     '@stylistic/object-curly-newline': ['error', {
       multiline: true,
-      minProperties: 3,
+      minProperties: 4,
       consistent: true,
     }],
     '@stylistic/object-property-newline': ['error', { allowAllPropertiesOnSameLine: false }],
