@@ -16,6 +16,10 @@ export default defineNuxtConfig({
     '@nuxt/a11y',
     '@primevue/nuxt-module',
   ],
+
+  plugins: [
+    '~/plugins/msw.ts',
+  ],
   devtools: {
     enabled: true,
   },
