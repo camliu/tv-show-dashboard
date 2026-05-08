@@ -1,7 +1,11 @@
 <template>
-  <div class=" flex flex-col p-4">
-    <LayoutHeader />
-    <main class="flex-1 ">
+  <div class="flex  min-h-screen flex-col">
+    <header class="w-full">
+      <div class="container mx-auto p-4">
+        <LayoutHeader />
+      </div>
+    </header>
+    <main class="flex-1 container mx-auto p-4">
       <slot />
     </main>
   </div>

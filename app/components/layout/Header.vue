@@ -1,9 +1,9 @@
 <template>
-  <header class="w-full">
+  <div class="w-full flex">
     <NuxtLink
       to="/"
-      aria-label="TV Show Home"
-      class="flex items-center text-xl gap-1 font-semibold w-fit"
+      aria-label="TV Show home"
+      class="flex items-center gap-1 text-xl font-semibold"
     >
       <Icon
         name="lucide:fish-symbol"
@@ -11,5 +11,5 @@
       />
       TV Show
     </NuxtLink>
-  </header>
+  </div>
 </template>
