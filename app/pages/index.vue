@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { data, error, pending } = await useFetch('/api/shows');
+</script>
+
 <template>
   <div>
     <h1>Shows</h1>
@@ -22,7 +26,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const { data, error, pending } = await useFetch('/api/shows');
-</script>

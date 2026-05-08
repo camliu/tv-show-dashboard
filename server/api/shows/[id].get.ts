@@ -3,8 +3,12 @@ import { TVMAZE_CONFIG, useTvMaze } from '~~/server/utils/tvmaze';
 export default cachedEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   const api = useTvMaze();
-  const data = await api(`${TVMAZE_CONFIG.ENDPOINTS.SHOWS}/${id}`);
-  return data;
+
+  const data = await api<TvmazeShow>(`${TVMAZE_CONFIG.ENDPOINTS.SHOWS}/${id}`);
+
+  return mapShow(data);
 }, {
   maxAge: 60 * 60,
+  name: 'show-detail',
+  getKey: event => `show-${getRouterParam(event, 'id')}`,
 });

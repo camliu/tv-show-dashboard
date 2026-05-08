@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import type { TvmazeShow } from '~~/types/tvmaze';
-
-const props = defineProps<{
-  show: TvmazeShow
+const { show } = defineProps<{
+  show: Show
 }>();
 </script>
 
 <template>
   <div>
-    <h2>{{ props.show.name }}</h2>
+    <h2>{{ show.name }}</h2>
     <NuxtImg
-      :src="show.image?.medium"
+      :src="show.image ?? ''"
       :alt="show.name"
       width="210"
       height="295"
