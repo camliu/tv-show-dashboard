@@ -1,4 +1,5 @@
-import { useTvMaze, TVMAZE_CONFIG } from '~~/server/utils/tvmaze';
+import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
+import { useTvMaze } from '~~/server/utils/tvmaze';
 
 export default cachedEventHandler(async () => {
   const api = useTvMaze();
@@ -9,5 +10,4 @@ export default cachedEventHandler(async () => {
 }, {
   maxAge: 60 * 15,
   name: 'shows-list',
-  getKey: event => event.path,
 });

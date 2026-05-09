@@ -2,7 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import {
   primeVueConfig,
 } from './configs/primevue';
-import { TVMAZE_CONFIG } from './server/utils/tvmaze';
+import { TVMAZE_CONFIG } from './shared/config/tvmaze';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -17,9 +17,6 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
   ],
 
-  plugins: [
-    '~/plugins/msw.ts',
-  ],
   devtools: {
     enabled: true,
   },
@@ -64,6 +61,9 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    optimizeDeps: {
+      include: ['@iconify/vue'],
+    },
   },
 
   eslint: {

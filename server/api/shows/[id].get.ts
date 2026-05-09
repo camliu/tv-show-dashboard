@@ -1,4 +1,5 @@
-import { TVMAZE_CONFIG, useTvMaze } from '~~/server/utils/tvmaze';
+import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
+import { useTvMaze } from '~~/server/utils/tvmaze';
 
 export default cachedEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');

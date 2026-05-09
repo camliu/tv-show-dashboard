@@ -1,10 +1,4 @@
-export const TVMAZE_CONFIG = {
-  BASE_URL: 'https://api.tvmaze.com',
-  IMAGE_DOMAIN: 'static.tvmaze.com',
-  ENDPOINTS: {
-    SHOWS: '/shows',
-  },
-} as const;
+import { TVMAZE_CONFIG } from '../../shared/config/tvmaze';
 
 export const useTvMaze = () => {
   return $fetch.create({

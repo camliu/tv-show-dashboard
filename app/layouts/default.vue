@@ -5,7 +5,7 @@
         <LayoutHeader />
       </div>
     </header>
-    <main class="flex-1 container mx-auto p-4">
+    <main class="flex-1 flex flex-col container mx-auto">
       <slot />
     </main>
   </div>

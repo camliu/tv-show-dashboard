@@ -53,8 +53,8 @@ interface Externals {
 }
 
 interface ShowImage {
-  medium: string
-  original: string
+  medium: string | null
+  original: string | null
 }
 
 interface Links {
