@@ -1,28 +1,34 @@
 <script setup lang="ts">
-const { data, error, pending } = await useFetch('/api/shows');
+const { groupedShows, status } = useShowList();
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col gap-4">
     <h1>Shows</h1>
 
-    <div v-if="pending">
-      Loading shows...
-    </div>
+    <NuxtErrorBoundary>
+      <template #error="{ error }">
+        <p>Could not load shows: {{ error.message }}</p>
+      </template>
 
-    <div
-      v-else-if="error"
-      class="error-box"
-    >
-      <p>Could not load shows: {{ error.statusMessage }}</p>
-    </div>
+      <ClientOnly>
+        <div v-if="status === 'pending'">
+          <ShowGroupSkeleton
+            v-for="n in 4"
+            :key="n"
+          />
+        </div>
 
-    <div v-else-if="data">
-      <ShowCard
-        v-for="show in data"
-        :key="show.id"
-        :show="show"
-      />
-    </div>
+        <template v-else>
+          <ShowGroup
+            v-for="([genre, items], i) in groupedShows"
+            :key="genre"
+            :genre="genre"
+            :shows="items"
+            :is-first="i < 2"
+          />
+        </template>
+      </ClientOnly>
+    </NuxtErrorBoundary>
   </div>
 </template>
