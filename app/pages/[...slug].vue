@@ -16,8 +16,8 @@
     </div>
     <NuxtLink
       to="/"
-      class="flex items-center gap-2 py-2 px-4 rounded-full bg-slate-900
-      text-white hover:bg-slate-800 transition-colors duration-300 mt-8"
+      class="flex items-center gap-2 py-2 px-4 rounded-full
+      text-white bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 mt-8"
     >
       <Icon
         name="lucide:arrow-left"
