@@ -3,5 +3,6 @@ export const TVMAZE_CONFIG = {
   IMAGE_DOMAIN: 'static.tvmaze.com',
   ENDPOINTS: {
     SHOWS: '/shows',
+    SEARCH_SHOWS: '/search/shows',
   },
 } as const;

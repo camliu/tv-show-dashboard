@@ -47,7 +47,7 @@ const sanitizedSummary = computed(() => DOMPurify.sanitize(props.show.summary ??
         </span>
         <span
           v-if="!show.genres.length"
-          class="opacity-40 text-sm"
+          class="opacity-60 font-medium text-sm"
         >No genres listed</span>
       </div>
 
