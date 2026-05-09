@@ -4,6 +4,7 @@ export const useShowList = () => {
   const { data, status, error } = useFetch<Show[]>('/api/shows', {
     server: false,
     lazy: true,
+    getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key],
   });
 
   watchEffect(() => {

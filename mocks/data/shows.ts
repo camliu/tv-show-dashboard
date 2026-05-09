@@ -1,135 +1,51 @@
-export const mockTvmazeShowFull: TvmazeShow = {
-  id: 1,
-  url: 'https://www.tvmaze.com/shows/1/under-the-dome',
-  name: 'Under the Dome',
-  type: 'Scripted',
-  language: 'English',
-  genres: ['Drama', 'Science-Fiction', 'Thriller'],
-  status: 'Ended',
-  runtime: 60,
-  averageRuntime: 60,
-  premiered: '2013-06-24',
-  ended: '2015-09-10',
-  officialSite: 'https://www.cbs.com/shows/under-the-dome/',
-  schedule: {
-    time: '22:00',
-    days: ['Thursday'],
-  },
-  rating: { average: 6.5 },
-  weight: 98,
-  network: {
-    id: 2,
-    name: 'CBS',
-    country: {
-      name: 'United States',
-      code: 'US',
-      timezone: 'America/New_York',
-    },
-    officialSite: 'https://www.cbs.com/',
-  },
-  webChannel: null,
-  dvdCountry: null,
-  externals: {
-    tvrage: 25988,
-    thetvdb: 264492,
-    imdb: 'tt1553656',
-  },
-  image: {
-    medium: 'https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg',
-    original: 'https://static.tvmaze.com/uploads/images/original_untouched/81/202627.jpg',
-  },
-  summary: '<p>Under the Dome is the story of the residents of Chester\'s Mill.</p>',
-  updated: 1631010933,
-  _links: {
-    self: { href: 'https://api.tvmaze.com/shows/1' },
-    previousepisode: {
-      href: 'https://api.tvmaze.com/episodes/185054',
-      name: 'The Enemy Within',
-    },
-  },
-};
-
-export const mockTvmazeShowSparse: TvmazeShow = {
-  id: 2,
-  url: 'https://www.tvmaze.com/shows/2/sparse-show',
-  name: 'Sparse Show',
-  type: 'Animation',
-  language: 'Japanese',
-  genres: [],
-  status: 'Running',
-  runtime: null,
-  averageRuntime: 24,
-  premiered: '2020-04-01',
-  ended: null,
-  officialSite: null,
-  schedule: {
-    time: '',
-    days: [],
-  },
-  rating: { average: null },
-  weight: 0,
-  network: null,
-  webChannel: {
-    id: 22,
-    name: 'Netflix',
-    country: null,
-    officialSite: 'https://www.netflix.com/',
-  },
-  dvdCountry: null,
-  externals: {
-    tvrage: null,
-    thetvdb: null,
-    imdb: null,
-  },
-  image: {
-    medium: null,
-    original: null,
-  },
-  summary: '',
-  updated: 1700000000,
-  _links: {
-    self: { href: 'https://api.tvmaze.com/shows/2' },
-    nextepisode: { href: 'https://api.tvmaze.com/episodes/9000' },
-  },
-};
-
-export const mockTvmazeShowsList: TvmazeShow[] = [
-  mockTvmazeShowFull,
-  mockTvmazeShowSparse,
-];
-
-export const mockShowA: Show = {
-  id: 1,
-  name: 'Show A',
+const baseShow = {
   image: undefined,
+  imageOriginal: undefined,
+  summary: '',
+  status: 'Running',
+  premiered: '2020-01-01',
+  ended: null,
+  network: null,
+  language: 'English',
+  runtime: null,
+} satisfies Partial<Show>;
+
+export const mockShowHighRating: Show = {
+  ...baseShow,
+  id: 1,
+  name: 'Drama High',
+  rating: 9.0,
+  genres: ['Drama'],
+};
+
+export const mockShowTiedRating: Show = {
+  ...baseShow,
+  id: 2,
+  name: 'Drama Crime Tied',
   rating: 9.0,
   genres: ['Drama', 'Crime'],
 };
-export const mockShowB: Show = {
-  id: 2,
-  name: 'Show B',
-  image: undefined,
-  rating: 6.5,
-  genres: ['Drama'],
-};
-export const mockShowC: Show = {
+
+export const mockShowMidRatingNoGenres: Show = {
+  ...baseShow,
   id: 3,
-  name: 'Show C',
-  image: undefined,
-  rating: null,
-  genres: ['Crime'],
-};
-export const mockShowD: Show = {
-  id: 4,
-  name: 'Show D',
-  image: undefined,
-  rating: 9.0,
-  genres: ['Thriller'],
-};
-export const mockShowNoGenres: Show = {
-  id: 5,
-  name: 'No Genres',
-  image: undefined,
-  rating: 7.0,
+  name: 'Mid No Genres',
+  rating: 7.5,
   genres: [],
 };
+
+export const mockShowNullRating: Show = {
+  ...baseShow,
+  id: 4,
+  name: 'Comedy Unrated',
+  rating: null,
+  genres: ['Comedy'],
+};
+
+// Intentionally unsorted: mid, null, tied, high — exercises all sort branches
+export const mockShowsForTransformer: Show[] = [
+  mockShowMidRatingNoGenres,
+  mockShowNullRating,
+  mockShowTiedRating,
+  mockShowHighRating,
+];

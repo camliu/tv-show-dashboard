@@ -32,18 +32,31 @@ describe('GET /api/shows', () => {
       id: 1,
       name: 'Under the Dome',
       image: 'https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg',
+      imageOriginal: 'https://static.tvmaze.com/uploads/images/original_untouched/81/202627.jpg',
       rating: 6.5,
       genres: ['Drama', 'Science-Fiction', 'Thriller'],
+      summary: '<p>Under the Dome is the story of the residents of Chester\'s Mill.</p>',
+      status: 'Ended',
+      premiered: '2013-06-24',
+      ended: '2015-09-10',
+      network: 'CBS',
+      language: 'English',
+      runtime: 60,
     });
   });
 
-  it('maps null image/rating to undefined/null', async () => {
+  it('maps null image/rating to undefined/null and falls back to webChannel for network', async () => {
     const data = await callHandler();
     const sparse = data[1]!;
 
     expect(sparse.image).toBeUndefined();
+    expect(sparse.imageOriginal).toBeUndefined();
     expect(sparse.rating).toBeNull();
     expect(sparse.genres).toEqual([]);
+    expect(sparse.summary).toBe('');
+    expect(sparse.ended).toBeNull();
+    expect(sparse.runtime).toBeNull();
+    expect(sparse.network).toBe('Netflix');
   });
 
   it('returns empty array when TVMaze returns no shows', async () => {
