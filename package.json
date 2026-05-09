@@ -28,6 +28,8 @@
     "@primeuix/themes": "^2.0.3",
     "@primevue/nuxt-module": "4.5.5",
     "@tailwindcss/vite": "^4.2.4",
+    "date-fns": "^4.1.0",
+    "isomorphic-dompurify": "^3.12.0",
     "nuxt": "^4.4.4",
     "primevue": "^4.5.5",
     "tailwindcss": "^4.2.4",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@azure/static-web-apps-cli": "^2.0.9",
+    "@iconify-json/lucide": "^1.2.106",
     "@nuxt/eslint": "1.15.2",
     "@nuxt/hints": "1.1.1",
     "@nuxt/test-utils": "4.0.3",

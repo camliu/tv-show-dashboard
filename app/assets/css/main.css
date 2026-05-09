@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
-html {
+html,
+body {
   color-scheme: light;
+  overflow-x: hidden;
 }

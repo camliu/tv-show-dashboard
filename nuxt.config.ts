@@ -71,5 +71,15 @@ export default defineNuxtConfig({
     },
   },
 
+  icon: {
+    serverBundle: {
+      collections: ['lucide'],
+    },
+  },
+
+  image: {
+    domains: ['static.tvmaze.com'],
+  },
+
   primevue: primeVueConfig,
 });

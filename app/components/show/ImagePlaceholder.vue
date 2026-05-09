@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-72 w-52 rounded-lg bg-zinc-100 flex
+    class="h-full w-full rounded-lg bg-zinc-100 flex
     flex-col items-center justify-center gap-2"
   >
     <Icon
