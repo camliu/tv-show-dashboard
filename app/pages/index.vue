@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data, error, pending } = await useFetch('/api/shows');
+const { groupedShows, error, pending } = useShowList();
 </script>
 
 <template>
@@ -17,12 +17,14 @@ const { data, error, pending } = await useFetch('/api/shows');
       <p>Could not load shows: {{ error.statusMessage }}</p>
     </div>
 
-    <div v-else-if="data">
-      <ShowCard
-        v-for="show in data"
-        :key="show.id"
-        :show="show"
+    <template v-else>
+      <ShowGroup
+        v-for="([genre, items], i) in groupedShows"
+        :key="genre"
+        :genre="genre"
+        :shows="items"
+        :is-first="i === 0"
       />
-    </div>
+    </template>
   </div>
 </template>

@@ -97,3 +97,39 @@ export const mockTvmazeShowsList: TvmazeShow[] = [
   mockTvmazeShowFull,
   mockTvmazeShowSparse,
 ];
+
+export const mockShowA: Show = {
+  id: 1,
+  name: 'Show A',
+  image: undefined,
+  rating: 9.0,
+  genres: ['Drama', 'Crime'],
+};
+export const mockShowB: Show = {
+  id: 2,
+  name: 'Show B',
+  image: undefined,
+  rating: 6.5,
+  genres: ['Drama'],
+};
+export const mockShowC: Show = {
+  id: 3,
+  name: 'Show C',
+  image: undefined,
+  rating: null,
+  genres: ['Crime'],
+};
+export const mockShowD: Show = {
+  id: 4,
+  name: 'Show D',
+  image: undefined,
+  rating: 9.0,
+  genres: ['Thriller'],
+};
+export const mockShowNoGenres: Show = {
+  id: 5,
+  name: 'No Genres',
+  image: undefined,
+  rating: 7.0,
+  genres: [],
+};

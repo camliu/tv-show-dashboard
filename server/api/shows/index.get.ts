@@ -9,5 +9,5 @@ export default cachedEventHandler(async () => {
   return data.map(mapShow);
 }, {
   maxAge: 60 * 15,
-  name: 'shows-list',
+  name: 'show-list',
 });

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { show } = defineProps<{
+const { show, eager = false } = defineProps<{
   show: Show
+  eager?: boolean
 }>();
 </script>
 
@@ -12,9 +13,11 @@ const { show } = defineProps<{
       :alt="show.name"
       width="210"
       height="295"
-      loading="lazy"
+      :loading="eager ? 'eager' : 'lazy'"
+      :fetchpriority="eager ? 'high' : 'auto'"
+      :preload="eager"
       format="webp"
-      placeholder=""
+      :placeholder="eager ? false : ''"
       class="rounded-lg"
     />
   </div>
