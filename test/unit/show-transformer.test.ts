@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { sortShowsByRating, groupShowsByGenre } from './show-transformer';
+import { sortShowsByRating, groupShowsByGenre } from '../../shared/utils/show-transformer';
 import {
   mockShowHighRating,
   mockShowTiedRating,

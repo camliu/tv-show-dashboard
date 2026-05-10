@@ -1,12 +1,10 @@
-import {
-  afterAll, afterEach, beforeAll, describe, expect, it,
-} from 'vitest';
-import type { TvmazeSearchResult } from '../../../../shared/types/tvmaze';
-import { mapShow } from '../../../../shared/utils/show-mapper';
-import { TVMAZE_CONFIG } from '../../../../shared/config/tvmaze';
-import { useTvMaze } from '../../../../server/utils/tvmaze';
-import { server } from '../../../../mocks/node';
-import { searchOverrideHandlers } from '../../../../mocks/handlers/shows';
+import { describe, expect, it } from 'vitest';
+import type { TvmazeSearchResult } from '../../../shared/types/tvmaze';
+import { mapShow } from '../../../shared/utils/show-mapper';
+import { TVMAZE_CONFIG } from '../../../shared/config/tvmaze';
+import { useTvMaze } from '../../../server/utils/tvmaze';
+import { server } from '../../../mocks/node';
+import { searchOverrideHandlers } from '../../../mocks/handlers/shows';
 
 async function callHandler(q: string) {
   const api = useTvMaze();
@@ -17,10 +15,6 @@ async function callHandler(q: string) {
 }
 
 describe('GET /api/shows/search', () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
-
   it('returns matched shows for a query', async () => {
     const data = await callHandler('dome');
 

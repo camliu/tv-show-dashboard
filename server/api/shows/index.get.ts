@@ -8,6 +8,7 @@ export default cachedEventHandler(async () => {
 
   return data.map(mapShow);
 }, {
-  maxAge: 60 * 15,
+  maxAge: 60 * 60,
+  staleMaxAge: 60 * 60,
   name: 'show-list',
 });

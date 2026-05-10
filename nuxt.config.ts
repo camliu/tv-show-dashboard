@@ -73,6 +73,7 @@ export default defineNuxtConfig({
   },
 
   icon: {
+    mode: 'svg',
     serverBundle: {
       collections: ['lucide'],
     },

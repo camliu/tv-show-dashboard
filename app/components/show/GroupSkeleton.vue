@@ -1,9 +1,8 @@
 <template>
-  <div class="mb-6">
+  <div class="flex flex-col gap-3 mb-6">
     <Skeleton
       width="8rem"
-      height="1.5rem"
-      class="mb-3"
+      height="1.75rem"
     />
     <div class="flex gap-4">
       <ShowCardSkeleton

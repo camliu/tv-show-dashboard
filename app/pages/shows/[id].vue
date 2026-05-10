@@ -46,7 +46,7 @@ useSeoMeta({
     <NuxtLink
       to="/"
       class="inline-flex items-center gap-2 text-md opacity-60
-             hover:opacity-100 transition-opacity my-6 py-2"
+             hover:opacity-100 transition-opacity my-2 py-2"
     >
       <Icon
         name="lucide:arrow-left"

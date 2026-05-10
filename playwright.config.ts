@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { defineConfig, devices } from '@playwright/test';
 import type { ConfigOptions } from '@nuxt/test-utils/playwright';
+import type { NuxtConfig } from 'nuxt/schema';
 
 export default defineConfig<ConfigOptions>({
   testDir: './tests',
@@ -13,8 +14,7 @@ export default defineConfig<ConfigOptions>({
     trace: 'on-first-retry',
     nuxt: {
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      nuxtConfig: { nitro: { preset: 'node-server' } } as any,
+      nuxtConfig: { nitro: { preset: 'node-server' } } as NuxtConfig,
     },
   },
   projects: [
