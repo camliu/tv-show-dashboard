@@ -1,0 +1,93 @@
+deploy.yml
+name: Deploy Web App
+
+on:
+  workflow_call:
+    inputs:
+      environment_name:
+        required: true
+        type: string
+      resource_group_name:
+        required: true
+        type: string
+      main_bicep_file:
+        required: true
+        type: string
+      main_parameters_file:
+        required: true
+        type: string
+      secrets_bicep_file:
+        required: false
+        type: string
+      secrets_parameters_file:
+        required: false
+        type: string
+      app_version:
+        required: false
+        type: string
+      artifact_name:
+        required: false
+        default: app
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment_name }}
+
+    steps:
+      - name: Checkout (infra files)
+        uses: actions/checkout@v6
+
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ./artifacts
+
+      - name: Debug Inspect package.zip contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -l ./artifacts/package.zip | head -n 80
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy main.bicep (create/update Web App)
+        id: main
+        uses: azure/arm-deploy@v2
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ inputs.resource_group_name }}
+          template: ${{ inputs.main_bicep_file }}
+          parameters: >
+            ${{ inputs.main_parameters_file }}
+            appVersion=${{ inputs.app_version }}
+          deploymentName: main-${{ github.run_id }}
+          failOnStdErr: false
+
+      - name: Deploy secrets.bicep (optional)
+        if: ${{ inputs.secrets_bicep_file != '' && inputs.secrets_parameters_file != '' }}
+        id: secrets
+        uses: azure/arm-deploy@v2
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ inputs.resource_group_name }}
+          template: ${{ inputs.secrets_bicep_file }}
+          parameters: ${{ inputs.secrets_parameters_file }}
+          failOnStdErr: false
+
+      - name: Deploy to Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ steps.main.outputs.webAppName }}
+          package: ./artifacts/package.zip

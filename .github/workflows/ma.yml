@@ -1,0 +1,157 @@
+name: Deploy Data API Web App
+
+on:
+  pull_request:
+    paths:
+      - "src/data-api/**"
+      - ".github/workflows/data-api.yml"
+      - ".github/workflows/reusable-run-test-and-sonar.yml"
+      - ".github/workflows/reusable-build-artifact.yml"
+      - ".github/workflows/reusable-manual-approval.yml"
+      - ".github/workflows/reusable-version.yml"
+      - ".github/workflows/reusable-deploy-web-app.yml"
+      - "infrastructure/data-api/**"
+
+  push:
+    branches: ["main"]
+    paths:
+      - "src/data-api/**"
+      - ".github/workflows/data-api.yml"
+      - ".github/workflows/reusable-run-test-and-sonar.yml"
+      - ".github/workflows/reusable-build-artifact.yml"
+      - ".github/workflows/reusable-manual-approval.yml"
+      - ".github/workflows/reusable-version.yml"
+      - ".github/workflows/reusable-deploy-web-app.yml"
+      - "infrastructure/data-api/**"
+  workflow_dispatch:
+    inputs:
+      version_tag:
+        description: "Required: Git tag to deploy (e.g. data-api-v1.2.3)."
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+
+jobs:
+  run-test-and-sonar:
+    name: Run Tests and Sonar
+    uses: ./.github/workflows/reusable-run-test-and-sonar.yml
+    with:
+      python_version: 3.12
+      working_dir: "./src/data-api"
+      test_dir: "./src/data-api/tests"
+      ref: ${{ github.event_name == 'workflow_dispatch' && inputs.version_tag || github.ref }}
+    secrets: inherit
+
+  build-artifact:
+    name: Build Artifact
+    needs: [run-test-and-sonar]
+    uses: ./.github/workflows/reusable-build-artifact.yml
+    with:
+      python_version: 3.12
+      working_dir: "./src/data-api"
+      ref: ${{ github.event_name == 'workflow_dispatch' && inputs.version_tag || github.ref }}
+      artifact_name: ${{ github.event_name == 'workflow_dispatch' && 'app-production' || 'app' }}
+    secrets: inherit
+
+  approve-develop:
+    name: Approve Deploy to Develop
+    needs: [build-artifact]
+    uses: ./.github/workflows/reusable-manual-approval.yml
+    with:
+      stage: develop
+      approvers: ${{ github.actor }}
+      timeout_minutes: 1
+
+  deploy-develop:
+    name: Deploy to Develop
+    needs: [approve-develop]
+    uses: ./.github/workflows/reusable-deploy-web-app.yml
+    with:
+      environment_name: "develop"
+      resource_group_name: "rg-data-dev-001"
+      main_bicep_file: "infrastructure/data-api/main.bicep"
+      main_parameters_file: "infrastructure/data-api/parameters/main.develop.parameters.json"
+    secrets: inherit
+
+  approve-test:
+    name: Approve Deploy to Test
+    needs: [deploy-develop]
+    uses: ./.github/workflows/reusable-manual-approval.yml
+    with:
+      stage: test
+      approvers: ${{ github.actor }}
+      timeout_minutes: 1
+
+  deploy-test:
+    name: Deploy to Test
+    needs: [approve-test]
+    uses: ./.github/workflows/reusable-deploy-web-app.yml
+    with:
+      environment_name: "test"
+      resource_group_name: "rg-data-test-001"
+      main_bicep_file: "infrastructure/data-api/main.bicep"
+      main_parameters_file: "infrastructure/data-api/parameters/main.test.parameters.json"
+    secrets: inherit
+
+  approve-production:
+    name: Approve Deploy to Production
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-test]
+    uses: ./.github/workflows/reusable-manual-approval.yml
+    with:
+      stage: production
+      approvers: ${{ github.actor }}
+      timeout_minutes: 1
+
+  version:
+    name: Version Bump for Production
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [approve-production]
+    uses: ./.github/workflows/reusable-version.yml
+    with:
+      project_dir: "src/data-api"
+    secrets: inherit
+
+  build-production-artifact-with-version:
+    name: Package Production Artifact
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [version]
+    uses: ./.github/workflows/reusable-build-artifact.yml
+    with:
+      python_version: 3.12
+      working_dir: "./src/data-api"
+      ref: refs/tags/${{ needs.version.outputs.tag }}
+      artifact_name: app-production
+    secrets: inherit
+
+  deploy-production-main:
+    name: Deploy to Production
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [approve-production, version, build-production-artifact-with-version]
+    uses: ./.github/workflows/reusable-deploy-web-app.yml
+    with:
+      environment_name: "production"
+      resource_group_name: "rg-data-prod-001"
+      main_bicep_file: "infrastructure/data-api/main.bicep"
+      main_parameters_file: "infrastructure/data-api/parameters/main.production.parameters.json"
+      app_version: ${{ needs.version.outputs.tag }}
+      artifact_name: app-production
+    secrets: inherit
+
+  deploy-production-dispatch:
+    name: Deploy to Production Workflow Dispatch
+    needs: [approve-production]
+    if: github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/reusable-deploy-web-app.yml
+    with:
+      environment_name: "production"
+      resource_group_name: "rg-data-prod-001"
+      main_bicep_file: "infrastructure/data-api/main.bicep"
+      main_parameters_file: "infrastructure/data-api/parameters/main.production.parameters.json"
+      app_version: ${{ inputs.version_tag }}
+      artifact_name: app-production
+    secrets: inherit
