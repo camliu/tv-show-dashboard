@@ -38,6 +38,26 @@ describe('sortShowsByRating', () => {
   it('returns an empty array for empty input', () => {
     expect(sortShowsByRating([])).toEqual([]);
   });
+
+  it('places a rated show before a null-rated show when rated comes first in input', () => {
+    const result = sortShowsByRating([mockShowHighRating, mockShowNullRating]);
+    expect(result[0]).toBe(mockShowHighRating);
+    expect(result[1]).toBe(mockShowNullRating);
+  });
+
+  it('returns stable order for two null-rated shows', () => {
+    const a = {
+      ...mockShowNullRating,
+      id: 10,
+    };
+    const b = {
+      ...mockShowNullRating,
+      id: 11,
+    };
+    const result = sortShowsByRating([a, b]);
+    expect(result[0]).toBe(a);
+    expect(result[1]).toBe(b);
+  });
 });
 
 describe('groupShowsByGenre', () => {
