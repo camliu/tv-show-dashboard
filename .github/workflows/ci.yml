@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+    branches:
+      - main
+
+jobs:
+  lint:
+    if: github.event.action != 'closed'
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    if: github.event.action != 'closed'
+    uses: ./.github/workflows/test.yml
+
+  e2e:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    uses: ./.github/workflows/e2e.yml
+
+  deploy:
+    needs: [lint, test, e2e]
+    if: |
+      always() &&
+      needs.lint.result != 'failure' &&
+      needs.test.result != 'failure' &&
+      needs.e2e.result != 'failure' &&
+      (
+        (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+        (github.event_name == 'pull_request' && github.event.action != 'closed')
+      )
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BRAVE_FLOWER_010FFE710 }}
+          action: "close"
