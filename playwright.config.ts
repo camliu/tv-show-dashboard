@@ -16,7 +16,7 @@ export default defineConfig<ConfigOptions>({
     nuxt: {
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
       nuxtConfig: { nitro: { preset: 'node-server' } } as NuxtConfig,
-      build: true,
+      build: !process.env.CI,
     },
   },
   projects: [
