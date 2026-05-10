@@ -13,7 +13,7 @@ async function handleFocus() {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative w-full sm:w-auto">
     <Icon
       name="lucide:search"
       size="1rem"
@@ -26,9 +26,14 @@ async function handleFocus() {
       :suggestions="suggestions"
       :option-label="(show: Show) => show.name"
       :pt="{
+        root: {
+          class: [
+            'w-full sm:w-auto',
+          ],
+        },
         pcInputText: { root: {
           'class': [
-            '!pl-9 !rounded-full !border-white !h-8 !shadow-none',
+            '!pl-9 !rounded-full sm:!border-white !h-8 !shadow-none !w-full sm:!w-auto',
             'hover:!border-zinc-300',
             'focus:!border-zinc-300',
           ],

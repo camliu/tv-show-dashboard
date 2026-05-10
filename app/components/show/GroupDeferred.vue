@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core';
 
-defineProps<{
+const props = defineProps<{
   genre: string
   shows: Show[]
   isFirst: boolean
 }>();
 
 const container = ref<HTMLElement | null>(null);
-const isVisible = ref(false);
+const isVisible = useState(`group-visible-${props.genre}`, () => props.isFirst);
 
 const { stop } = useIntersectionObserver(
   container,

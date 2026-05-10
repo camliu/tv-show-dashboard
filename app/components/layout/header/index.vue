@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex items-center gap-10">
+  <div class="w-full flex sm:flex-row flex-col items-center gap-2  sm:gap-10">
     <NuxtLink
       to="/"
       aria-label="TV Show home"
@@ -7,7 +7,7 @@
     >
       <Icon
         name="lucide:fish-symbol"
-        size="40"
+        class="size-10"
       />
       TV Show
     </NuxtLink>
