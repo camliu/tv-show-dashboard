@@ -8,16 +8,16 @@ export default defineConfig({
       {
         test: {
           name: 'unit',
-          include: ['test/unit/*.{test,spec}.ts', 'shared/**/*.{test,spec}.ts'],
+          include: ['test/unit/*.{test,spec}.ts'],
           environment: 'node',
         },
       },
       {
         test: {
-          name: 'server',
-          include: ['test/server/**/*.{test,spec}.ts'],
+          name: 'handlers',
+          include: ['test/handlers/**/*.{test,spec}.ts'],
           environment: 'node',
-          setupFiles: ['test/server/setup.ts'],
+          setupFiles: ['test/handlers/setup.ts'],
         },
       },
       await defineVitestProject({
@@ -37,6 +37,8 @@ export default defineConfig({
     coverage: {
       enabled: true,
       provider: 'v8',
+      include: ['app/**', 'server/**', 'shared/**'],
+      exclude: ['**/*.test.ts', 'mocks/**'],
     },
   },
 });

@@ -5,21 +5,24 @@ const { genre, shows, isFirst } = defineProps<{
   isFirst: boolean
 }>();
 
+const section = useTemplateRef<HTMLElement>('section');
+const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const {
-  scrollContainer, isHovered, atStart, atEnd, updateScrollState, scrollRight, scrollToStart,
-} = useScrollArrows();
+  isHovered, atStart, atEnd, scrollRight, scrollToStart,
+} = useScrollArrows(section, scrollContainer);
 
 const arrowBase = 'absolute inset-y-0 z-10 flex items-center w-10 p-0 border-none cursor-pointer text-black from-white/85 to-transparent';
 </script>
 
 <template>
   <section
-    class="relative flex flex-col gap-2"
+    ref="section"
+    class="relative flex flex-col gap-3"
     aria-roledescription="carousel"
-    @mouseenter="isHovered = true"
-    @mouseleave="isHovered = false"
   >
-    <h2>{{ genre }}</h2>
+    <h2 class="text-lg font-bold text-zinc-800">
+      {{ genre }}
+    </h2>
     <div class="relative">
       <Transition name="fade">
         <button
@@ -40,7 +43,6 @@ const arrowBase = 'absolute inset-y-0 z-10 flex items-center w-10 p-0 border-non
         ref="scrollContainer"
         class="flex overflow-x-auto gap-4 no-scrollbar"
         tabindex="0"
-        @scroll="updateScrollState"
       >
         <ShowCard
           v-for="(show, i) in shows"

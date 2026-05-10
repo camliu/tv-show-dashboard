@@ -10,8 +10,6 @@ async function handleFocus() {
   await search({ query: query.value });
   autocomplete.value?.show();
 }
-
-const inputClass = '!pl-9 !rounded-full !border-white !shadow-none hover:!border-zinc-300 focus:!border-zinc-300';
 </script>
 
 <template>
@@ -28,7 +26,14 @@ const inputClass = '!pl-9 !rounded-full !border-white !shadow-none hover:!border
       :suggestions="suggestions"
       :option-label="(show: Show) => show.name"
       :pt="{
-        pcInputText: { root: { 'class': `${inputClass} !h-8`, 'aria-label': 'Search shows' } },
+        pcInputText: { root: {
+          'class': [
+            '!pl-9 !rounded-full !border-white !h-8 !shadow-none',
+            'hover:!border-zinc-300',
+            'focus:!border-zinc-300',
+          ],
+          'aria-label': 'Search shows',
+        } },
         overlay: { class: '!rounded-xl !border-zinc-200 !shadow-lg' },
         listContainer: { class: '!max-h-140 !overflow-y-auto' },
         option: { class: '!rounded-lg' },

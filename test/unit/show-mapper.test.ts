@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { mapShow } from './show-mapper';
+import { mapShow } from '../../shared/utils/show-mapper';
 import { mockTvmazeShowFull, mockTvmazeShowSparse } from '../../mocks/data/tvmaze-shows';
 
 describe('mapShow', () => {

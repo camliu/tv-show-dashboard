@@ -1,17 +1,11 @@
-import { ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { toRef } from 'vue';
+import { useScroll, useElementHover } from '@vueuse/core';
 
-export function useScrollArrows() {
-  const scrollContainer = ref<HTMLElement | null>(null);
-  const isHovered = ref(false);
-  const atStart = ref(true);
-  const atEnd = ref(false);
-
-  function updateScrollState() {
-    const el = scrollContainer.value;
-    if (!el) return;
-    atStart.value = el.scrollLeft <= 0;
-    atEnd.value = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
-  }
+export function useScrollArrows(section: Ref<HTMLElement | null>,
+  scrollContainer: Ref<HTMLElement | null>) {
+  const isHovered = useElementHover(section);
+  const { arrivedState } = useScroll(scrollContainer);
 
   function scrollRight() {
     const el = scrollContainer.value;
@@ -29,14 +23,10 @@ export function useScrollArrows() {
     });
   }
 
-  onMounted(updateScrollState);
-
   return {
-    scrollContainer,
     isHovered,
-    atStart,
-    atEnd,
-    updateScrollState,
+    atStart: toRef(arrivedState, 'left'),
+    atEnd: toRef(arrivedState, 'right'),
     scrollRight,
     scrollToStart,
   };

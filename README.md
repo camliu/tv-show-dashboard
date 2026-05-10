@@ -9,16 +9,23 @@ A Nuxt 4 app for browsing and searching TV shows, powered by the [TVmaze API](ht
 - **Nuxt 4** — framework
 - **PrimeVue 4** — UI component library
 - **Tailwind CSS 4** — styling
+- **Nuxt Icon + Lucide** — icons
+- **Nuxt A11y** — accessibility hints and auditing
 - **Pinia** — state management
+- **VueUse** — composable utilities
 - **MSW** — API mocking for development and tests
 - **Vitest** — unit and component tests
 - **Playwright** — e2e tests
-- **Azure Static Web Apps** — hosting and deployment pipeline (preview + production)
+- **Husky + lint-staged** — pre-commit hooks
 - **GitHub Actions** — CI/CD
+- **Azure Static Web Apps** — hosting and deployment pipeline (preview + production)
+
+## Requirements
+
+- Node.js 22
+- pnpm 10
 
 ## Getting started
-
-**Requirements:** Node.js 22, pnpm 10
 
 ```bash
 pnpm install
@@ -41,11 +48,11 @@ pnpm dev
 
 ## Testing
 
-| Layer | Tool | What it covers |
-|---|---|---|
-| Unit | Vitest | Utilities and composables |
-| Integration | Vitest + MSW | Nuxt server routes with mocked TVmaze API |
-| E2e | Playwright + MSW | Full browser flow against a real Nuxt server with mocked TVmaze API |
+| Layer       | Tool             | What it covers                                                      |
+| ----------- | ---------------- | ------------------------------------------------------------------- |
+| Unit        | Vitest           | Utilities and composables                                           |
+| Integration | Vitest + MSW     | Nuxt server routes with mocked TVmaze API                           |
+| E2e         | Playwright + MSW | Full browser flow against a real Nuxt server with mocked TVmaze API |
 
 E2e tests use `.env.test` automatically, no extra setup needed:
 
@@ -55,10 +62,10 @@ pnpm test:e2e
 
 ## CI/CD
 
-| Step | Trigger | Tool | What runs |
-|---|---|---|---|
-| Pre-commit | `git commit` | Husky + lint-staged | ESLint auto-fix + lint on staged files |
-| Push | Push to any branch | GitHub Actions | Lint, unit tests, integration tests |
-| Pull request | PR opened / updated | GitHub Actions | Unit tests, integration tests, e2e tests, preview deploy to Azure |
-| Merge to main | Push to `main` | GitHub Actions | Production deploy to Azure |
-| PR closed | PR closed | GitHub Actions | Preview environment torn down |
+| Step          | Trigger             | Tool                | What runs                                                         |
+| ------------- | ------------------- | ------------------- | ----------------------------------------------------------------- |
+| Pre-commit    | `git commit`        | Husky + lint-staged | ESLint auto-fix + lint on staged files                            |
+| Push          | Push to any branch  | GitHub Actions      | Lint, unit tests, integration tests                               |
+| Pull request  | PR opened / updated | GitHub Actions      | Unit tests, integration tests, e2e tests, preview deploy to Azure |
+| Merge to main | Push to `main`      | GitHub Actions      | Production deploy to Azure                                        |
+| PR closed     | PR closed           | GitHub Actions      | Preview environment torn down                                     |

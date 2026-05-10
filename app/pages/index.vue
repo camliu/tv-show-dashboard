@@ -3,21 +3,22 @@ const { groupedShows, status } = useShowList();
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <h1>Shows</h1>
-
+  <div class="flex flex-col gap-8 mt-8 mb-20">
+    <h1 class="sr-only">
+      TV Show Dashboard
+    </h1>
     <NuxtErrorBoundary>
       <template #error="{ error }">
         <p>Could not load shows: {{ error.message }}</p>
       </template>
 
       <ClientOnly>
-        <div v-if="status === 'pending'">
+        <template v-if="status === 'pending'">
           <ShowGroupSkeleton
             v-for="n in 4"
             :key="n"
           />
-        </div>
+        </template>
 
         <template v-else>
           <ShowGroup
