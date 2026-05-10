@@ -62,10 +62,25 @@ pnpm test:e2e
 
 ## CI/CD
 
-| Step          | Trigger             | Tool                | What runs                                                         |
-| ------------- | ------------------- | ------------------- | ----------------------------------------------------------------- |
-| Pre-commit    | `git commit`        | Husky + lint-staged | ESLint auto-fix + lint on staged files                            |
-| Push          | Push to any branch  | GitHub Actions      | Lint, unit tests, integration tests                               |
-| Pull request  | PR opened / updated | GitHub Actions      | Unit tests, integration tests, e2e tests, preview deploy to Azure |
-| Merge to main | Push to `main`      | GitHub Actions      | Production deploy to Azure                                        |
-| PR closed     | PR closed           | GitHub Actions      | Preview environment torn down                                     |
+### What runs when
+
+| Job    | Pre-commit | Push to any branch | PR opened / updated | Merge to `main` | PR closed |
+| ------ | :--------: | :----------------: | :-----------------: | :-------------: | :-------: |
+| Lint   |     ✓      |         ✓          |          ✓          |        ✓        |           |
+| Test   |            |         ✓          |          ✓          |        ✓        |           |
+| E2E    |            |                    |          ✓          |                 |           |
+| Deploy |            |                    |  Preview (Azure SWA)|   Production    |  Teardown |
+
+### Workflow structure
+
+All workflows live in `.github/workflows/`. Each job is a reusable workflow called from the single orchestrator:
+
+```
+ci.yml (orchestrator)
+├── lint.yml       — pnpm lint
+├── test.yml       — pnpm test run
+├── e2e.yml        — pnpm test:e2e  (PRs only)
+└── deploy.yml     — Azure Static Web Apps deploy (main push + PRs only)
+```
+
+Deploy only runs after lint and test pass. E2E being skipped (on non-PR events) does not block deploy.

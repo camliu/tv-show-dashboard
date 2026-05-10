@@ -3,7 +3,7 @@ const { groupedShows, status } = useShowList();
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 mt-8 mb-20">
+  <div class="flex flex-col gap-8 mb-20">
     <h1 class="sr-only">
       TV Show Dashboard
     </h1>
@@ -21,7 +21,7 @@ const { groupedShows, status } = useShowList();
         </template>
 
         <template v-else>
-          <ShowGroup
+          <ShowGroupDeferred
             v-for="([genre, items], i) in groupedShows"
             :key="genre"
             :genre="genre"

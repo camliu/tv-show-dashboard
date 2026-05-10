@@ -11,12 +11,11 @@ useSeoMeta({
 
 <template>
   <div class="flex flex-1 flex-col">
-    <div
+    <ShowErrorState
       v-if="error"
-      class="text-red-400"
-    >
-      Could not load show: {{ error.message }}
-    </div>
+      :subject="error.statusMessage"
+      :context="error.data?.data?.context"
+    />
 
     <div
       v-else-if="show"
@@ -24,9 +23,9 @@ useSeoMeta({
     >
       <div class="flex gap-14">
         <div class="w-95 h-140 shrink-0 rounded-xl overflow-hidden">
-          <ShowDetailSkeleton v-if="show.imageOriginal && !imgLoaded" />
+          <LazyShowDetailSkeleton v-if="show.imageOriginal && !imgLoaded" />
           <LazyShowImagePlaceholder v-else-if="!show.imageOriginal" />
-          <NuxtImg
+          <LazyNuxtImg
             v-if="show.imageOriginal"
             :src="show.imageOriginal"
             :alt="show.name"
@@ -40,10 +39,11 @@ useSeoMeta({
           />
         </div>
 
-        <ShowInfo :show="show" />
+        <LazyShowInfo :show="show" />
       </div>
     </div>
     <NuxtLink
+      v-if="!error"
       to="/"
       class="inline-flex items-center gap-2 text-md opacity-60
              hover:opacity-100 transition-opacity my-2 py-2"

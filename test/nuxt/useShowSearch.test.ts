@@ -36,6 +36,7 @@ function setup(fetchResult: Show[] = [mockShow]) {
 beforeEach(() => {
   setActivePinia(createPinia());
   vi.unstubAllGlobals();
+  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => cb(0));
 });
 
 describe('useShowSearch', () => {

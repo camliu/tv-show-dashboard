@@ -10,11 +10,13 @@ export default defineConfig<ConfigOptions>({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+  timeout: 60_000,
   use: {
     trace: 'on-first-retry',
     nuxt: {
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
       nuxtConfig: { nitro: { preset: 'node-server' } } as NuxtConfig,
+      build: true,
     },
   },
   projects: [

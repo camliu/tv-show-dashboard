@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen flex-col overflow-x-hidden">
     <header class="w-full">
-      <div class="container mt-8 mx-auto">
+      <div class="container my-8 mx-auto">
         <LayoutHeader />
       </div>
     </header>
