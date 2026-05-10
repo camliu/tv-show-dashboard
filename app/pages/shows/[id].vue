@@ -21,8 +21,8 @@ useSeoMeta({
       v-else-if="show"
       class="flex flex-1 items-center"
     >
-      <div class="flex gap-14">
-        <div class="w-95 h-140 shrink-0 rounded-xl overflow-hidden">
+      <div class="flex flex-col sm:flex-row gap-6 sm:gap-14">
+        <div class="sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
           <LazyShowDetailSkeleton v-if="show.imageOriginal && !imgLoaded" />
           <LazyShowImagePlaceholder v-else-if="!show.imageOriginal" />
           <LazyNuxtImg
@@ -34,7 +34,7 @@ useSeoMeta({
             format="webp"
             loading="eager"
             fetchpriority="high"
-            :class="['h-full object-cover', { 'opacity-0': !imgLoaded }]"
+            :class="['h-full  object-cover', { 'opacity-0': !imgLoaded }]"
             @load="imgLoaded = true"
           />
         </div>
