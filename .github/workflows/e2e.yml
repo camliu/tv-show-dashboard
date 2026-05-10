@@ -16,8 +16,5 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Build
-        run: NITRO_PRESET=node-server pnpm build
-
       - name: E2E tests
         run: pnpm test:e2e
