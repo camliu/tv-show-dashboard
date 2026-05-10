@@ -81,6 +81,7 @@ Browse and search TV shows, organized by genre and sorted by rating — powered 
 #### Playwright | E2E tests
 
 - Tests the full user flow against a real Nuxt server with MSW-mocked responses
+- axe-core integration for automated accessibility checks on each page
 
 #### Husky + lint-staged | Pre-commit hooks
 
@@ -164,7 +165,7 @@ No environment variables are required. The app connects to the TVmaze public API
 | ----------- | ---------------- | ------------------------------------------------------------------- |
 | Unit        | Vitest           | Utilities and composables                                           |
 | Integration | Vitest + MSW     | Nuxt server routes with mocked TVmaze API                           |
-| E2E         | Playwright + MSW | Full browser flow against a real Nuxt server with mocked TVmaze API |
+| E2E         | Playwright + MSW + axe | Full browser flow against a real Nuxt server with mocked TVmaze API; includes axe-core accessibility checks on each page |
 
 E2E tests use `.env.test` automatically, no extra setup needed:
 
