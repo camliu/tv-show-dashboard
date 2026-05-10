@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex">
+  <div class="w-full flex items-center gap-10">
     <NuxtLink
       to="/"
       aria-label="TV Show home"
@@ -11,5 +11,7 @@
       />
       TV Show
     </NuxtLink>
+
+    <LayoutHeaderSearch />
   </div>
 </template>

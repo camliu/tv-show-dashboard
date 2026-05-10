@@ -1,3 +1,8 @@
+export interface TvmazeSearchResult {
+  score: number
+  show: TvmazeShow
+}
+
 export interface TvmazeShow {
   id: number
   url: string
