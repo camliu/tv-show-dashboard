@@ -1,7 +1,10 @@
 import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
 import type { ConfigOptions } from '@nuxt/test-utils/playwright';
 import type { NuxtConfig } from 'nuxt/schema';
+
+const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig<ConfigOptions>({
   testDir: './tests',
@@ -14,8 +17,14 @@ export default defineConfig<ConfigOptions>({
   use: {
     trace: 'on-first-retry',
     nuxt: {
-      rootDir: fileURLToPath(new URL('.', import.meta.url)),
-      nuxtConfig: { nitro: { preset: 'node-server' } } as NuxtConfig,
+      rootDir,
+      nuxtConfig: {
+        nitro: {
+          preset: 'node-server',
+          ...(process.env.CI && { output: { dir: resolve(rootDir, '.output') } }),
+        },
+      } as NuxtConfig,
+      build: !process.env.CI,
     },
   },
   projects: [
