@@ -41,7 +41,7 @@ const inputClass = '!pl-9 !rounded-full !border-white !shadow-none hover:!border
       @focus="handleFocus"
     >
       <template #option="{ option: show }">
-        <LayoutHeaderSearchOption :show="show" />
+        <LazyLayoutHeaderSearchOption :show="show" />
       </template>
     </AutoComplete>
   </div>

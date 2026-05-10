@@ -1,75 +1,64 @@
-# Nuxt Minimal Starter
+# TV Show Dashboard
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A Nuxt 4 app for browsing and searching TV shows, powered by the [TVmaze API](https://www.tvmaze.com/api).
 
-## Setup
+**Live:** https://brave-flower-010ffe710.7.azurestaticapps.net/
 
-Make sure to install dependencies:
+## Tech stack
+
+- **Nuxt 4** — framework
+- **PrimeVue 4** — UI component library
+- **Tailwind CSS 4** — styling
+- **Pinia** — state management
+- **MSW** — API mocking for development and tests
+- **Vitest** — unit and component tests
+- **Playwright** — e2e tests
+- **Azure Static Web Apps** — hosting and deployment pipeline (preview + production)
+- **GitHub Actions** — CI/CD
+
+## Getting started
+
+**Requirements:** Node.js 22, pnpm 10
 
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+## Scripts
 
-Build the application for production:
+| Command              | Description                     |
+| -------------------- | ------------------------------- |
+| `pnpm dev`           | Start development server        |
+| `pnpm build`         | Build for production            |
+| `pnpm preview`       | Preview production build        |
+| `pnpm lint`          | Lint                            |
+| `pnpm lint:fix`      | Lint and auto-fix               |
+| `pnpm test`          | Run unit and component tests    |
+| `pnpm test:coverage` | Run tests with coverage report  |
+| `pnpm test:e2e`      | Run Playwright e2e tests        |
+| `pnpm test:e2e:ui`   | Run Playwright tests in UI mode |
+
+## Testing
+
+| Layer | Tool | What it covers |
+|---|---|---|
+| Unit | Vitest | Utilities and composables |
+| Integration | Vitest + MSW | Nuxt server routes with mocked TVmaze API |
+| E2e | Playwright + MSW | Full browser flow against a real Nuxt server with mocked TVmaze API |
+
+E2e tests use `.env.test` automatically, no extra setup needed:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm test:e2e
 ```
 
-Locally preview production build:
+## CI/CD
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+| Step | Trigger | Tool | What runs |
+|---|---|---|---|
+| Pre-commit | `git commit` | Husky + lint-staged | ESLint auto-fix + lint on staged files |
+| Push | Push to any branch | GitHub Actions | Lint, unit tests, integration tests |
+| Pull request | PR opened / updated | GitHub Actions | Unit tests, integration tests, e2e tests, preview deploy to Azure |
+| Merge to main | Push to `main` | GitHub Actions | Production deploy to Azure |
+| PR closed | PR closed | GitHub Actions | Preview environment torn down |
