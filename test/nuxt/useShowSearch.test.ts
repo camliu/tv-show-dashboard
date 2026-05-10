@@ -1,6 +1,7 @@
 import {
-  describe, expect, it, vi,
+  beforeEach, describe, expect, it, vi,
 } from 'vitest';
+import { createPinia, setActivePinia } from 'pinia';
 import type {
   AutoCompleteCompleteEvent,
   AutoCompleteOptionSelectEvent,
@@ -23,18 +24,19 @@ const mockShow: Show = {
 };
 
 function setup(fetchResult: Show[] = [mockShow]) {
-  const fetcher = vi.fn().mockResolvedValue(fetchResult);
+  vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(fetchResult));
   const router = { push: vi.fn() };
-  const composable = useShowSearch(
-    fetcher as unknown as typeof $fetch,
-    router as unknown as ReturnType<typeof useRouter>,
-  );
+  const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
   return {
     composable,
-    fetcher,
     router,
   };
 }
+
+beforeEach(() => {
+  setActivePinia(createPinia());
+  vi.unstubAllGlobals();
+});
 
 describe('useShowSearch', () => {
   it('updates suggestions on search', async () => {
@@ -64,12 +66,9 @@ describe('useShowSearch', () => {
   });
 
   it('clears suggestions on fetch error', async () => {
-    const fetcher = vi.fn().mockRejectedValue(new Error('Network error'));
+    vi.stubGlobal('$fetch', vi.fn().mockRejectedValue(new Error('Network error')));
     const router = { push: vi.fn() };
-    const composable = useShowSearch(
-      fetcher as unknown as typeof $fetch,
-      router as unknown as ReturnType<typeof useRouter>,
-    );
+    const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
     composable.suggestions.value = [mockShow];
 
     await composable.search({ query: 'dome' } as AutoCompleteCompleteEvent);
