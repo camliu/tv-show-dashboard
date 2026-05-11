@@ -5,8 +5,8 @@
   >
     <Icon
       name="lucide:ghost"
-      class="text-3xl text-zinc-400"
+      class="text-3xl text-zinc-600"
     />
-    <span class="text-sm text-zinc-400">No image</span>
+    <span class="text-sm text-zinc-600">No image</span>
   </div>
 </template>
