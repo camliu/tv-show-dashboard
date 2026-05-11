@@ -13,7 +13,7 @@ export interface TvmazeShow {
   status: string
   runtime: number | null
   averageRuntime: number
-  premiered: string
+  premiered: string | null
   ended: string | null
   officialSite: string | null
   schedule: Schedule
@@ -23,8 +23,8 @@ export interface TvmazeShow {
   webChannel: Network | null
   dvdCountry: Country | null
   externals: Externals
-  image: ShowImage
-  summary: string
+  image: ShowImage | null
+  summary: string | null
   updated: number
   _links: Links
 }

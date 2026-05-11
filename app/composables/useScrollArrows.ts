@@ -1,5 +1,3 @@
-import type { Ref } from 'vue';
-import { toRef } from 'vue';
 import { useScroll, useElementHover } from '@vueuse/core';
 
 export function useScrollArrows(section: Ref<HTMLElement | null>,

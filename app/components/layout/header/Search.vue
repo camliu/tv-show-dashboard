@@ -5,9 +5,9 @@ const {
 
 const autocomplete = ref();
 
-async function handleFocus() {
+function handleFocus() {
   if (!query.value.trim()) return;
-  await search({ query: query.value });
+  search({ query: query.value });
   autocomplete.value?.show();
 }
 </script>

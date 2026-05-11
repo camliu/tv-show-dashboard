@@ -5,9 +5,9 @@ export interface Show {
   imageOriginal: string | undefined
   rating: number | null
   genres: string[]
-  summary: string | null
+  summary: string
   status: string
-  premiered: string
+  premiered: string | null
   ended: string | null
   network: string | null
   language: string

@@ -2,7 +2,7 @@
 
 Browse and search TV shows, organized by genre and sorted by rating — powered by the [TVmaze API](https://www.tvmaze.com/api).
 
-**Live:** [https://brave-flower-010ffe710.7.azurestaticapps.net/](https://brave-flower-010ffe710.7.azurestaticapps.net/)
+**Production:** [https://brave-flower-010ffe710.7.azurestaticapps.net/](https://brave-flower-010ffe710.7.azurestaticapps.net/)
 
 ---
 
@@ -44,11 +44,11 @@ Browse and search TV shows, organized by genre and sorted by rating — powered 
 #### Tailwind CSS | Styling
 
 - Responsive design is straightforward with utility classes
-- Composed classes are ready to apply, keeping repeated patterns consistent
+- 
 
 #### PrimeVue | UI component library
 
-- Reliable, highly customizable components that leave full control over layout and behavior
+- Reliable, highly customizable components while keeping full control over layout and behavior
 
 #### Nuxt Icon + Lucide | Icons
 
@@ -128,7 +128,7 @@ tests/                 # E2E tests (Playwright)
 ## Requirements
 
 - Node.js 22 (LTS) — matches the version pinned in CI and the Azure Static Web Apps runtime
-- pnpm 10 — faster installs via a shared global store
+- pnpm 10 — used instead of npm for faster installs and reduced disk space via a shared global store
 
 ---
 
@@ -145,26 +145,37 @@ No environment variables are required. The app connects to the TVmaze public API
 
 ## Scripts
 
-```
-pnpm dev          Start development server
-pnpm build        Build for production
-pnpm preview      Preview production build
-pnpm lint         Lint
-pnpm lint:fix     Lint and auto-fix
-pnpm test         Run unit and component tests
-pnpm test:e2e     Run Playwright e2e tests
-pnpm test:e2e:ui  Run Playwright tests in UI mode
-```
+
+| Command              | Description                     |
+| -------------------- | ------------------------------- |
+| `pnpm dev`           | Start development server        |
+| `pnpm build`         | Build for production            |
+| `pnpm preview`       | Preview production build        |
+| `pnpm lint`          | Lint                            |
+| `pnpm lint:fix`      | Lint and auto-fix               |
+| `pnpm test`          | Run unit and component tests    |
+| `pnpm test:coverage` | Run tests with coverage report  |
+| `pnpm test:e2e`      | Run Playwright e2e tests        |
+| `pnpm test:e2e:ui`   | Run Playwright tests in UI mode |
+
 
 ---
 
 ## Testing
 
-- **Unit** (Vitest) — utilities and composables
-- **Integration** (Vitest + MSW) — server routes with mocked TVmaze API
-- **E2E** (Playwright + MSW + axe) — full browser flow with accessibility checks
 
-E2E tests use `.env.test` automatically, no extra setup needed.
+| Layer       | Tool                   | What it covers                                                                                                           |
+| ----------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Unit        | Vitest                 | Utilities and composables                                                                                                |
+| Integration | Vitest + MSW           | Nuxt server routes with mocked TVmaze API                                                                                |
+| E2E         | Playwright + MSW + axe | Full browser flow against a real Nuxt server with mocked TVmaze API; includes axe-core accessibility checks on each page |
+
+
+E2E tests use `.env.test` automatically, no extra setup needed:
+
+```bash
+pnpm test:e2e
+```
 
 ---
 
@@ -179,3 +190,4 @@ ci.yml (orchestrator)
 ├── e2e.yml        — pnpm test:e2e  (PRs only)
 └── deploy.yml     — Azure Static Web Apps deploy
 ```
+

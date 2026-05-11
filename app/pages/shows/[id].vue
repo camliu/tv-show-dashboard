@@ -2,33 +2,26 @@
 const route = useRoute();
 const { data: show, error } = await useShowDetail(route.params.id as string);
 
+if (error.value) throw error.value;
+
 const imgLoaded = ref(!show.value?.imageOriginal);
 
 useSeoMeta({
-  title: show.value ? `${show.value.name} — TV Show Dashboard` : 'Show Not Found',
+  title: `${show.value!.name} — TV Show Dashboard`,
 });
 </script>
 
 <template>
   <div class="flex flex-1 flex-col">
-    <ShowErrorState
-      v-if="error"
-      :subject="error.statusMessage"
-      :context="error.data?.data?.context"
-    />
-
-    <div
-      v-else-if="show"
-      class="flex flex-1 items-center"
-    >
+    <div class="flex flex-1 items-center">
       <div class="flex flex-col sm:flex-row gap-6 sm:gap-14">
         <div class="sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
-          <LazyShowDetailSkeleton v-if="show.imageOriginal && !imgLoaded" />
-          <LazyShowImagePlaceholder v-else-if="!show.imageOriginal" />
+          <LazyShowDetailSkeleton v-if="show!.imageOriginal && !imgLoaded" />
+          <LazyShowImagePlaceholder v-else-if="!show!.imageOriginal" />
           <LazyNuxtImg
-            v-if="show.imageOriginal"
-            :src="show.imageOriginal"
-            :alt="show.name"
+            v-if="show!.imageOriginal"
+            :src="show!.imageOriginal"
+            :alt="show!.name"
             width="1360"
             height="2000"
             format="webp"
@@ -39,11 +32,10 @@ useSeoMeta({
           />
         </div>
 
-        <LazyShowInfo :show="show" />
+        <LazyShowInfo :show="show!" />
       </div>
     </div>
     <NuxtLink
-      v-if="!error"
       to="/"
       class="inline-flex items-center gap-2 text-md opacity-60
              hover:opacity-100 transition-opacity my-2 py-2"

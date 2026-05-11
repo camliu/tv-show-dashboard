@@ -45,7 +45,7 @@ const loaded = ref(!show.image);
             class="size-4"
             aria-hidden="true"
           />
-          <span>{{ show.rating ?? '—' }}</span>
+          <span>{{ show.rating != null ? show.rating.toFixed(1) : '—' }}</span>
         </p>
       </div>
     </NuxtLink>
