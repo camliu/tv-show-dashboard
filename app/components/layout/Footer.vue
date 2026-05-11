@@ -1,13 +1,20 @@
 <template>
-  <div class="flex justify-between py-6">
-    <div class="flex items-center gap-2">
+  <div class="flex justify-center items-center gap-4 py-6 text-xs text-zinc-500">
+    <a
+      href="https://github.com/camliu/tv-show-dashboard"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-1 hover:text-zinc-600 transition-colors"
+      aria-label="GitHub, opens in new tab"
+    >
       <Icon
-        name="lucide:fish-symbol"
-        size="20"
+        name="lucide:github"
+        size="14"
         aria-hidden="true"
       />
-      <span class="font-medium">TV Show</span>
-    </div>
+      GitHub
+    </a>
+    <span aria-hidden="true">·</span>
     <p>
       Data from
       <a

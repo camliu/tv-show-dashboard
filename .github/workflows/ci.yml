@@ -19,19 +19,26 @@ jobs:
     if: github.event.action != 'closed'
     uses: ./.github/workflows/lint.yml
 
+  typecheck:
+    if: github.event.action != 'closed'
+    uses: ./.github/workflows/typecheck.yml
+
   test:
     if: github.event.action != 'closed'
+    needs: [lint, typecheck]
     uses: ./.github/workflows/test.yml
 
   e2e:
     if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    needs: [lint, typecheck, test]
     uses: ./.github/workflows/e2e.yml
 
   deploy:
-    needs: [lint, test, e2e]
+    needs: [lint, typecheck, test, e2e]
     if: |
       always() &&
       needs.lint.result != 'failure' &&
+      needs.typecheck.result != 'failure' &&
       needs.test.result != 'failure' &&
       needs.e2e.result != 'failure' &&
       (

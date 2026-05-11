@@ -33,7 +33,7 @@ function handleFocus() {
         },
         pcInputText: { root: {
           'class': [
-            '!pl-9 !rounded-full sm:!border-white !h-8 !shadow-none !w-full sm:!w-auto',
+            '!pl-9 !rounded-full sm:!border-white !h-8 !shadow-none !w-full sm:!w-auto !text-sm',
             'hover:!border-zinc-300',
             'focus:!border-zinc-300',
           ],
