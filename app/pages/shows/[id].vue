@@ -38,12 +38,12 @@ useSeoMeta({
     </div>
     <NuxtLink
       to="/"
-      class="inline-flex items-center gap-2 text-md opacity-60
+      class="inline-flex items-center gap-1 text-sm opacity-60
              hover:opacity-100 transition-opacity my-2 py-2"
     >
       <Icon
         name="lucide:arrow-left"
-        size="1.25rem"
+        size="16"
         aria-hidden="true"
       />
       Back to Shows
