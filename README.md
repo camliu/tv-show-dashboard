@@ -89,7 +89,7 @@ Browse and search TV shows, organized by genre and sorted by rating — powered 
 
 #### GitHub Actions | CI/CD
 
-- Orchestrates lint, test, e2e, and deploy jobs on every push and PR
+- Orchestrates lint, typecheck, test, e2e, and deploy jobs on every push and PR
 
 #### Azure Static Web Apps | Hosting
 
@@ -152,6 +152,7 @@ pnpm build        Build for production
 pnpm preview      Preview production build
 pnpm lint         Lint
 pnpm lint:fix     Lint and auto-fix
+pnpm typecheck    Type check
 pnpm test         Run unit and component tests
 pnpm test:e2e     Run Playwright e2e tests
 pnpm test:e2e:ui  Run Playwright tests in UI mode
@@ -171,12 +172,13 @@ E2E tests use `.env.test` automatically, no extra setup needed.
 
 ## CI/CD
 
-GitHub Actions runs lint, test, and e2e on every PR, and deploys to Azure Static Web Apps — preview per PR, production on merge to `main`.
+GitHub Actions runs lint, typecheck, test, and e2e on every PR, and deploys to Azure Static Web Apps — preview per PR, production on merge to `main`.
 
 ```
 ci.yml (orchestrator)
-├── lint.yml       — pnpm lint
-├── test.yml       — pnpm test run
-├── e2e.yml        — pnpm test:e2e  (PRs only)
-└── deploy.yml     — Azure Static Web Apps deploy
+├── lint.yml           — pnpm lint           ┐ parallel
+├── typecheck.yml      — pnpm typecheck      ┘
+├── test.yml           — pnpm test run       (needs lint, typecheck)
+├── e2e.yml            — pnpm test:e2e       (needs lint, typecheck, test — PRs only)
+└── deploy.yml         — Azure Static Web Apps deploy
 ```

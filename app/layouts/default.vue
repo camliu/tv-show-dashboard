@@ -8,8 +8,8 @@
     <main class="container mx-auto px-4 flex-1 flex flex-col overflow-hidden">
       <slot />
     </main>
-    <footer class="w-full border-t border-zinc-200">
-      <div class="container mx-auto px-4">
+    <footer class="w-full">
+      <div class="container  border-t border-zinc-200 mx-auto px-4">
         <LayoutFooter />
       </div>
     </footer>

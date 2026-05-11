@@ -6,6 +6,7 @@ const props = defineProps<{ show: Show }>();
 
 const airInfo = computed(() => {
   try {
+    if (!props.show.premiered) return '—';
     const start = format(parseISO(props.show.premiered), 'MMMM d, yyyy');
     const end = props.show.ended ? format(parseISO(props.show.ended), 'MMMM d, yyyy') : null;
     return end ? `${start} — ${end}` : `${start} — present`;
@@ -56,7 +57,7 @@ const sanitizedSummary = computed(() => DOMPurify.sanitize(props.show.summary ??
           <dt class="w-24 shrink-0 opacity-60">
             Status
           </dt>
-          <dd :class="show.status === 'Running' ? 'text-green-400' : 'opacity-80'">
+          <dd class="opacity-80">
             {{ show.status }}
           </dd>
         </div>
