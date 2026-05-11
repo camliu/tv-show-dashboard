@@ -25,6 +25,7 @@ Browse and search TV shows, organized by genre and sorted by rating — powered 
 - **Show detail page** — view extensive information for each show
 - **Search by name** — search for any TV show by name with input search in the header
 - **Responsive design** — Optimized UI for mobile and desktop
+- **Error handling** — consistent error page for 404s and unexpected failures
 
 ---
 
@@ -44,7 +45,6 @@ Browse and search TV shows, organized by genre and sorted by rating — powered 
 #### Tailwind CSS | Styling
 
 - Responsive design is straightforward with utility classes
-- 
 
 #### PrimeVue | UI component library
 
@@ -105,7 +105,8 @@ app/
 ├── composables/       # Data fetching and UI logic
 ├── pages/             # File-based routes
 ├── stores/            # Pinia stores
-└── layouts/           # App shell
+├── layouts/           # App shell
+└── error.vue          # Global error page (404, 500)
 
 server/
 └── api/shows/         # Server routes proxying the TVmaze API
@@ -145,7 +146,6 @@ No environment variables are required. The app connects to the TVmaze public API
 
 ## Scripts
 
-
 | Command              | Description                     |
 | -------------------- | ------------------------------- |
 | `pnpm dev`           | Start development server        |
@@ -158,18 +158,15 @@ No environment variables are required. The app connects to the TVmaze public API
 | `pnpm test:e2e`      | Run Playwright e2e tests        |
 | `pnpm test:e2e:ui`   | Run Playwright tests in UI mode |
 
-
 ---
 
 ## Testing
-
 
 | Layer       | Tool                   | What it covers                                                                                                           |
 | ----------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | Unit        | Vitest                 | Utilities and composables                                                                                                |
 | Integration | Vitest + MSW           | Nuxt server routes with mocked TVmaze API                                                                                |
 | E2E         | Playwright + MSW + axe | Full browser flow against a real Nuxt server with mocked TVmaze API; includes axe-core accessibility checks on each page |
-
 
 E2E tests use `.env.test` automatically, no extra setup needed:
 
@@ -190,4 +187,3 @@ ci.yml (orchestrator)
 ├── e2e.yml        — pnpm test:e2e  (PRs only)
 └── deploy.yml     — Azure Static Web Apps deploy
 ```
-
