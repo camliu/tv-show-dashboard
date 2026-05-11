@@ -1,30 +1,27 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core';
 
-const { show, eager = false } = defineProps<{
+const { show, scrollContainer } = defineProps<{
   show: Show
-  eager?: boolean
+  scrollContainer: HTMLElement | null
 }>();
 
-const root = inject<Ref<HTMLElement | null>>('scrollRoot');
 const card = ref<HTMLElement | null>(null);
-const isVisible = ref(eager);
+const isVisible = ref(false);
 
-if (!eager) {
-  const { stop } = useIntersectionObserver(
-    card,
-    ([entry]) => {
-      if (entry?.isIntersecting) {
-        isVisible.value = true;
-        stop();
-      }
-    },
-    {
-      root,
-      rootMargin: '0px 300px 0px 0px',
-    },
-  );
-}
+const { stop } = useIntersectionObserver(
+  card,
+  ([entry]) => {
+    if (entry?.isIntersecting) {
+      isVisible.value = true;
+      stop();
+    }
+  },
+  {
+    root: scrollContainer,
+    rootMargin: '0px 300px 0px 0px',
+  },
+);
 </script>
 
 <template>
@@ -35,7 +32,6 @@ if (!eager) {
     <ShowCard
       v-if="isVisible"
       :show="show"
-      :eager="eager"
     />
     <ShowCardSkeleton v-else />
   </div>
