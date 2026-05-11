@@ -1,8 +1,7 @@
 <script setup lang="ts">
-const { genre, shows, isFirst } = defineProps<{
+const { genre, shows } = defineProps<{
   genre: string
   shows: Show[]
-  isFirst: boolean
 }>();
 
 const section = useTemplateRef<HTMLElement>('section');
@@ -44,11 +43,11 @@ const arrowBase = 'absolute inset-y-0 z-10 flex items-center w-10 p-0 border-non
         class="flex overflow-x-auto gap-4 no-scrollbar"
         tabindex="0"
       >
-        <ShowCard
-          v-for="(show, i) in shows"
+        <ShowCardDeferred
+          v-for="show in shows"
           :key="show.id"
           :show="show"
-          :eager="isFirst && i < 6"
+          :scroll-container="scrollContainer"
         />
       </div>
 

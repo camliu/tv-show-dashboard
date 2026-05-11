@@ -1,7 +1,6 @@
 <script setup lang="ts">
-const { show, eager = false } = defineProps<{
+const { show } = defineProps<{
   show: Show
-  eager?: boolean
 }>();
 
 const loaded = ref(!show.image);
@@ -31,9 +30,8 @@ const loaded = ref(!show.image);
           height="295"
           format="webp"
           densities="1"
-          :loading="eager ? 'eager' : 'lazy'"
-          :fetchpriority="eager ? 'high' : 'auto'"
-          :preload="eager"
+          loading="lazy"
+          fetchpriority="auto"
           class="h-full object-cover transition-transform duration-300 group-hover:scale-105"
           @load="loaded = true"
         />

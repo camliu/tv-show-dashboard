@@ -4,11 +4,10 @@ import { useIntersectionObserver } from '@vueuse/core';
 const props = defineProps<{
   genre: string
   shows: Show[]
-  isFirst: boolean
 }>();
 
 const container = ref<HTMLElement | null>(null);
-const isVisible = useState(`group-visible-${props.genre}`, () => props.isFirst);
+const isVisible = useState(`group-visible-${props.genre}`, () => false);
 
 const { stop } = useIntersectionObserver(
   container,
@@ -28,7 +27,6 @@ const { stop } = useIntersectionObserver(
       v-if="isVisible"
       :genre="genre"
       :shows="shows"
-      :is-first="isFirst"
     />
     <ShowGroupSkeleton v-else />
   </div>
