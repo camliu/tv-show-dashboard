@@ -62,7 +62,11 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
     optimizeDeps: {
-      include: ['@iconify/vue'],
+      include: [
+        'date-fns',
+        'isomorphic-dompurify',
+        '@vueuse/core',
+      ],
     },
   },
 
