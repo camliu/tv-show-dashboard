@@ -8,12 +8,13 @@ export const useShowList = () => {
   });
 
   watchEffect(() => {
-    if (error.value) throw error.value;
+    if (error.value) showError(error.value);
   });
 
   const groupedShows = computed(() =>
     data.value ? [...groupShowsByGenre(data.value).entries()] : [],
   );
+
   return {
     groupedShows,
     status,

@@ -9,9 +9,8 @@ export const useShowSearch = (router = useRouter()) => {
   }
 
   function select(event: { value: Show }) {
-    const id = event.value.id;
     store.clear();
-    requestAnimationFrame(() => router.push(`/shows/${id}`));
+    requestAnimationFrame(() => router.push(`/shows/${event.value.id}`));
   }
 
   return {

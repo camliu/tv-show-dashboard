@@ -7,29 +7,23 @@ const { groupedShows, status } = useShowList();
     <h1 class="sr-only">
       TV Show Dashboard
     </h1>
-    <NuxtErrorBoundary>
-      <template #error="{ error }">
-        <p>Could not load shows: {{ error.message }}</p>
+    <ClientOnly>
+      <template v-if="status === 'pending'">
+        <ShowGroupSkeleton
+          v-for="n in 4"
+          :key="n"
+        />
       </template>
 
-      <ClientOnly>
-        <template v-if="status === 'pending'">
-          <ShowGroupSkeleton
-            v-for="n in 4"
-            :key="n"
-          />
-        </template>
-
-        <template v-else>
-          <ShowGroupDeferred
-            v-for="([genre, items], i) in groupedShows"
-            :key="genre"
-            :genre="genre"
-            :shows="items"
-            :is-first="i < 2"
-          />
-        </template>
-      </ClientOnly>
-    </NuxtErrorBoundary>
+      <template v-else>
+        <ShowGroupDeferred
+          v-for="([genre, items], i) in groupedShows"
+          :key="genre"
+          :genre="genre"
+          :shows="items"
+          :is-first="i < 2"
+        />
+      </template>
+    </ClientOnly>
   </div>
 </template>
