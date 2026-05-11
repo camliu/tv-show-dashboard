@@ -2,7 +2,7 @@
 
 Browse and search TV shows, organized by genre and sorted by rating — powered by the [TVmaze API](https://www.tvmaze.com/api).
 
-**Production:** [https://brave-flower-010ffe710.7.azurestaticapps.net/](https://brave-flower-010ffe710.7.azurestaticapps.net/)
+**Live:** [https://brave-flower-010ffe710.7.azurestaticapps.net/](https://brave-flower-010ffe710.7.azurestaticapps.net/)
 
 ---
 
