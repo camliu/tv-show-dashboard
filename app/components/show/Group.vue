@@ -11,6 +11,8 @@ const {
   isHovered, atStart, atEnd, scrollRight, scrollToStart,
 } = useScrollArrows(section, scrollContainer);
 
+provide('scrollRoot', scrollContainer);
+
 const arrowBase = 'absolute inset-y-0 z-10 flex items-center w-10 p-0 border-none cursor-pointer text-black from-white/85 to-transparent';
 </script>
 
@@ -44,7 +46,7 @@ const arrowBase = 'absolute inset-y-0 z-10 flex items-center w-10 p-0 border-non
         class="flex overflow-x-auto gap-4 no-scrollbar"
         tabindex="0"
       >
-        <ShowCard
+        <ShowCardDeferred
           v-for="(show, i) in shows"
           :key="show.id"
           :show="show"
