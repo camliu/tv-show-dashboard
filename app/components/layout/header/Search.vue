@@ -42,6 +42,7 @@ function handleFocus() {
         overlay: { class: '!rounded-xl !border-zinc-200 !shadow-lg' },
         listContainer: { class: '!max-h-140 !overflow-y-auto' },
         option: { class: '!rounded-lg' },
+        emptyMessage: { class: '!text-zinc-600' },
       }"
       placeholder="Search"
       :delay="300"

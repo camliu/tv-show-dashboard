@@ -4,7 +4,7 @@ const { data: show, error } = await useShowDetail(route.params.id as string);
 
 if (error.value) throw error.value;
 
-const imgLoaded = ref(!show.value?.imageOriginal);
+const imgLoaded = useState(`img-loaded-${route.params.id}`, () => !show.value?.imageOriginal);
 
 useSeoMeta({
   title: `${show.value!.name} — TV Show Dashboard`,
@@ -18,16 +18,17 @@ useSeoMeta({
         <div class="sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
           <LazyShowDetailSkeleton v-if="show!.imageOriginal && !imgLoaded" />
           <LazyShowImagePlaceholder v-else-if="!show!.imageOriginal" />
-          <LazyNuxtImg
+          <NuxtImg
             v-if="show!.imageOriginal"
             :src="show!.imageOriginal"
             :alt="show!.name"
-            width="1360"
-            height="2000"
+            width="380"
+            height="560"
             format="webp"
+            densities="1"
             loading="eager"
             fetchpriority="high"
-            :class="['h-full  object-cover', { 'opacity-0': !imgLoaded }]"
+            :class="['h-full object-cover', { 'opacity-0': !imgLoaded }]"
             @load="imgLoaded = true"
           />
         </div>

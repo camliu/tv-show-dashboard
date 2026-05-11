@@ -30,6 +30,7 @@ const loaded = ref(!show.image);
           width="210"
           height="295"
           format="webp"
+          densities="1"
           :loading="eager ? 'eager' : 'lazy'"
           :fetchpriority="eager ? 'high' : 'auto'"
           :preload="eager"
