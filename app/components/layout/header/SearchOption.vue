@@ -18,6 +18,10 @@ const imgLoaded = ref(false);
       :class="['object-cover rounded size-12', { 'opacity-0': !imgLoaded }]"
       @load="imgLoaded = true"
     />
+    <div
+      v-else
+      class="size-12 rounded bg-zinc-100 shrink-0"
+    />
     <div class="flex flex-col gap-0.5">
       <span>{{ show.name }}</span>
       <time
