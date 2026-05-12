@@ -1,13 +1,10 @@
 export function useImgLoad(key: string, hasImage: boolean) {
   const loaded = useState(key, () => !hasImage);
-  const imgEl = useTemplateRef<{ $el: HTMLImageElement }>('imgEl');
+  const imgEl = useTemplateRef<HTMLImageElement>('imgEl');
 
   onMounted(() => {
-    if (imgEl.value?.$el?.complete) loaded.value = true;
+    if (imgEl.value?.complete) loaded.value = true;
   });
 
-  return {
-    loaded,
-    imgEl,
-  };
+  return { loaded };
 }

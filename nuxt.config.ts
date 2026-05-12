@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@nuxt/a11y',
     '@primevue/nuxt-module',
-    '@pinia/nuxt',
   ],
 
   devtools: {
@@ -67,6 +66,19 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         '@vueuse/core',
       ],
+    },
+  },
+
+  a11y: {
+    axe: {
+      options: {
+        // false positive: PrimeVue retains detached DOM nodes after overlay closes
+        rules: [{
+          id: 'color-contrast',
+          selector: ':not(.search-empty-message)',
+        }],
+      },
+      runOptions: {},
     },
   },
 

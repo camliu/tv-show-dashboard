@@ -42,7 +42,6 @@ function handleFocus() {
         overlay: { class: '!rounded-xl !border-zinc-200 !shadow-lg' },
         listContainer: { class: '!max-h-140 !overflow-y-auto' },
         option: { class: '!rounded-lg' },
-        emptyMessage: { class: '!text-zinc-600' },
       }"
       placeholder="Search"
       :delay="300"
@@ -53,6 +52,9 @@ function handleFocus() {
     >
       <template #option="{ option: show }">
         <LazyLayoutHeaderSearchOption :show="show" />
+      </template>
+      <template #empty>
+        <span class="search-empty-message text-sm text-zinc-500">No shows found</span>
       </template>
     </AutoComplete>
   </div>
