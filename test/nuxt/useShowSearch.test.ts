@@ -1,7 +1,6 @@
 import {
   beforeEach, describe, expect, it, vi,
 } from 'vitest';
-import { createPinia, setActivePinia } from 'pinia';
 import type {
   AutoCompleteCompleteEvent,
   AutoCompleteOptionSelectEvent,
@@ -34,7 +33,6 @@ function setup(fetchResult: Show[] = [mockShow]) {
 }
 
 beforeEach(() => {
-  setActivePinia(createPinia());
   vi.unstubAllGlobals();
   vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => cb(0));
 });
@@ -94,5 +92,33 @@ describe('useShowSearch', () => {
 
     expect(composable.query.value).toBe('');
     expect(composable.suggestions.value).toEqual([]);
+  });
+
+  it('aborts the previous request signal when a new search starts', async () => {
+    const capturedSignals: AbortSignal[] = [];
+    vi.stubGlobal('$fetch', vi.fn().mockImplementation((_url: string, opts: { signal: AbortSignal }) => {
+      capturedSignals.push(opts.signal);
+      return Promise.resolve([]);
+    }));
+
+    const router = { push: vi.fn() };
+    const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
+    await composable.search({ query: 'first' } as AutoCompleteCompleteEvent);
+    await composable.search({ query: 'second' } as AutoCompleteCompleteEvent);
+
+    expect(capturedSignals[0]!.aborted).toBe(true);
+    expect(capturedSignals[1]!.aborted).toBe(false);
+  });
+
+  it('does not clear suggestions when the request is aborted', async () => {
+    vi.stubGlobal('$fetch', vi.fn().mockRejectedValue(new DOMException('Aborted', 'AbortError')));
+
+    const router = { push: vi.fn() };
+    const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
+    composable.suggestions.value = [mockShow];
+
+    await composable.search({ query: 'dome' } as AutoCompleteCompleteEvent);
+
+    expect(composable.suggestions.value).toEqual([mockShow]);
   });
 });
