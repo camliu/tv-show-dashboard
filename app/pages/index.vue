@@ -17,11 +17,10 @@ const { groupedShows, status } = useShowList();
 
       <template v-else>
         <ShowGroupDeferred
-          v-for="([genre, items], i) in groupedShows"
+          v-for="[genre, items] in groupedShows"
           :key="genre"
           :genre="genre"
           :shows="items"
-          :is-first="i < 2"
         />
       </template>
     </ClientOnly>

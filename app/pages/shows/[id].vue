@@ -15,26 +15,42 @@ useSeoMeta({
   <div class="flex flex-1 flex-col">
     <div class="flex flex-1 items-center">
       <div class="flex flex-col sm:flex-row gap-6 sm:gap-14">
-        <div class="sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
-          <LazyShowDetailSkeleton v-if="show!.imageOriginal && !imgLoaded" />
-          <LazyShowImagePlaceholder v-else-if="!show!.imageOriginal" />
-          <NuxtImg
-            v-if="show!.imageOriginal"
-            ref="imgEl"
+        <div class="relative sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
+          <LazyBaseImagePlaceholder v-if="!show!.imageOriginal" />
+          <LazyNuxtImg
+            v-else
+            v-slot="{ imgAttrs, src }"
+            custom
             :src="show!.imageOriginal"
-            :alt="show!.name"
             width="380"
             height="560"
             format="webp"
             densities="1"
-            loading="eager"
-            fetchpriority="high"
-            :class="['h-full object-cover', { 'opacity-0': !imgLoaded }]"
-            @load="imgLoaded = true"
-          />
+          >
+            <img
+              ref="imgEl"
+              v-bind="imgAttrs"
+              :src="src"
+              :alt="show!.name"
+              loading="eager"
+              fetchpriority="high"
+              class="h-full object-cover"
+              @load="imgLoaded = true"
+            >
+            <div
+              v-if="!imgLoaded"
+              class="absolute inset-0"
+            >
+              <Skeleton
+                width="100%"
+                height="100%"
+                border-radius="0"
+              />
+            </div>
+          </LazyNuxtImg>
         </div>
 
-        <LazyShowInfo :show="show!" />
+        <LazyShowProfile :show="show!" />
       </div>
     </div>
     <NuxtLink

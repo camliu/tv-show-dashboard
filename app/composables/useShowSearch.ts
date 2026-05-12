@@ -1,15 +1,31 @@
-import { storeToRefs } from 'pinia';
-
 export const useShowSearch = (router = useRouter()) => {
-  const store = useSearchStore();
-  const { query, suggestions } = storeToRefs(store);
+  const query = ref('');
+  const suggestions = ref<Show[]>([]);
+  let abortController: AbortController | null = null;
 
-  function search(event: { query: string }) {
-    store.search(event.query);
+  async function search(event: { query: string }) {
+    abortController?.abort();
+    abortController = new AbortController();
+
+    if (!event.query.trim()) {
+      suggestions.value = [];
+      return;
+    }
+    try {
+      suggestions.value = await $fetch<Show[]>('/api/shows/search', {
+        query: { q: event.query },
+        signal: abortController.signal,
+      });
+    }
+    catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return;
+      suggestions.value = [];
+    }
   }
 
   function select(event: { value: Show }) {
-    store.clear();
+    query.value = '';
+    suggestions.value = [];
     requestAnimationFrame(() => router.push(`/shows/${event.value.id}`));
   }
 

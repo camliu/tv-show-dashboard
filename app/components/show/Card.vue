@@ -18,10 +18,9 @@ const loaded = ref(!show.image);
       :class="{ invisible: show.image && !loaded }"
     >
       <div
-        class="h-72 w-52 rounded-lg overflow-hidden outline-2 outline-transparent
-      group-hover:outline-white transition-[outline-color]"
+        class="h-72 w-52 rounded-lg overflow-hidden"
       >
-        <LazyShowImagePlaceholder v-if="!show.image" />
+        <LazyBaseImagePlaceholder v-if="!show.image" />
         <NuxtImg
           v-if="show.image"
           :src="show.image"
@@ -32,7 +31,7 @@ const loaded = ref(!show.image);
           densities="1"
           loading="lazy"
           fetchpriority="auto"
-          class="h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          class="h-full object-cover transition-transform duration-300 hover:scale-105"
           @load="loaded = true"
         />
       </div>

@@ -37,7 +37,7 @@ const detail = computed(() => errorInfo.value.detail);
       <p class="opacity-60 text-sm">
         {{ detail }}
       </p>
-      <BaseBackLink class="mt-8" />
+      <BaseHomeLink class="mt-8" />
     </div>
   </NuxtLayout>
 </template>
