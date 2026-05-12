@@ -15,16 +15,26 @@ on:
       - main
 
 jobs:
+  build:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/build.yml
+
   lint:
-    if: github.event.action != 'closed'
+    if: |
+      (github.event_name == 'pull_request' && github.event.action != 'closed') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
     uses: ./.github/workflows/lint.yml
 
   typecheck:
-    if: github.event.action != 'closed'
+    if: |
+      (github.event_name == 'pull_request' && github.event.action != 'closed') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
     uses: ./.github/workflows/typecheck.yml
 
   test:
-    if: github.event.action != 'closed'
+    if: |
+      (github.event_name == 'pull_request' && github.event.action != 'closed') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
     needs: [lint, typecheck]
     uses: ./.github/workflows/test.yml
 
@@ -34,9 +44,10 @@ jobs:
     uses: ./.github/workflows/e2e.yml
 
   deploy:
-    needs: [lint, typecheck, test, e2e]
+    needs: [build, lint, typecheck, test, e2e]
     if: |
       always() &&
+      needs.build.result != 'failure' &&
       needs.lint.result != 'failure' &&
       needs.typecheck.result != 'failure' &&
       needs.test.result != 'failure' &&

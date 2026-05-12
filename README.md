@@ -172,13 +172,23 @@ E2E tests use `.env.test` automatically, no extra setup needed.
 
 ## CI/CD
 
-GitHub Actions runs lint, typecheck, test, and e2e on every PR, and deploys to Azure Static Web Apps — preview per PR, production on merge to `main`.
+GitHub Actions orchestrates checks across three stages — fast build feedback on every push, full validation on PRs, and a safety net before production deploy on merge to `main`.
 
 ```
-ci.yml (orchestrator)
+push (any branch)
+└── build.yml          — pnpm build
+
+pull request → main
 ├── lint.yml           — pnpm lint           ┐ parallel
 ├── typecheck.yml      — pnpm typecheck      ┘
 ├── test.yml           — pnpm test run       (needs lint, typecheck)
-├── e2e.yml            — pnpm test:e2e       (needs lint, typecheck, test — PRs only)
-└── deploy.yml         — Azure Static Web Apps deploy
+├── e2e.yml            — pnpm test:e2e       (needs lint, typecheck, test)
+└── deploy.yml         — Azure preview deployment
+
+merge to main
+├── lint.yml           ┐
+├── typecheck.yml      ┤ parallel
+├── build.yml          ┘
+├── test.yml           (needs lint, typecheck)
+└── deploy.yml         — Azure production deployment
 ```
