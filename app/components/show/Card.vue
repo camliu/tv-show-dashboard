@@ -7,33 +7,34 @@ const loaded = ref(!show.image);
 </script>
 
 <template>
-  <div class="relative shrink-0 w-52">
+  <div class="w-52">
     <ShowCardSkeleton
-      v-if="show.image && !loaded"
-      class="absolute top-0 left-0 z-10"
+      v-if="!loaded"
     />
     <NuxtLink
+      v-show="loaded"
       :to="`/shows/${show.id}`"
-      class="group w-52 flex flex-col gap-1.5"
-      :class="{ invisible: show.image && !loaded }"
+      class="group flex flex-col gap-1.5"
     >
-      <div
-        class="h-72 w-52 rounded-lg overflow-hidden"
-      >
-        <LazyBaseImagePlaceholder v-if="!show.image" />
+      <div class="h-72 overflow-hidden rounded-lg">
         <NuxtImg
-          v-if="show.image"
+          v-slot="{ imgAttrs }"
           :src="show.image"
-          :alt="show.name"
           width="210"
           height="295"
           format="webp"
           densities="1"
-          loading="lazy"
-          fetchpriority="auto"
-          class="h-full object-cover transition-transform duration-300 hover:scale-105"
-          @load="loaded = true"
-        />
+          custom
+        >
+          <img
+            v-if="show.image"
+            v-bind="imgAttrs"
+            :alt="show.name"
+            class="transition-transform duration-300 hover:scale-105"
+            @load="loaded = true"
+          >
+          <LazyBaseImagePlaceholder v-else />
+        </NuxtImg>
       </div>
       <div class="flex flex-col gap-0.5 font-medium">
         <h3>{{ show.name }}</h3>

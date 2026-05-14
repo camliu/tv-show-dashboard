@@ -7,7 +7,7 @@ if (!showData.value) throw createError({ statusCode: 404 });
 
 const show = showData.value;
 
-const { loaded: imgLoaded } = useImgLoad(`img-loaded-${route.params.id}`, !!show.imageOriginal);
+const imgError = ref(false);
 
 useSeoMeta({
   title: `${show.name} — TV Show Dashboard`,
@@ -18,42 +18,33 @@ useSeoMeta({
   <div class="flex flex-1 flex-col">
     <div class="flex flex-1 items-center">
       <div class="flex flex-col sm:flex-row gap-6 sm:gap-14">
-        <div class="relative sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
-          <LazyBaseImagePlaceholder v-if="!show!.imageOriginal" />
+        <div class="sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
           <LazyNuxtImg
-            v-else
-            v-slot="{ imgAttrs, src }"
-            custom
-            :src="show!.imageOriginal"
+            v-slot="{ src, isLoaded, imgAttrs }"
+            :src="show.imageOriginal"
             width="380"
             height="560"
             format="webp"
             densities="1"
+            custom
+            @error="imgError = true"
           >
+            <LazyBaseImagePlaceholder v-if="imgError || !show.imageOriginal" />
             <img
-              ref="imgEl"
+              v-else-if="isLoaded"
               v-bind="imgAttrs"
               :src="src"
-              :alt="show!.name"
-              loading="eager"
-              fetchpriority="high"
-              class="h-full object-cover"
-              @load="imgLoaded = true"
+              :alt="show.name"
             >
-            <div
-              v-if="!imgLoaded"
-              class="absolute inset-0"
-            >
-              <Skeleton
-                width="100%"
-                height="100%"
-                border-radius="0"
-              />
-            </div>
+            <Skeleton
+              v-else
+              width="100%"
+              height="100%"
+              border-radius="0"
+            />
           </LazyNuxtImg>
         </div>
-
-        <LazyShowProfile :show="show!" />
+        <LazyShowProfile :show="show" />
       </div>
     </div>
     <NuxtLink

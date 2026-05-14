@@ -45,7 +45,7 @@ function handleFocus() {
       }"
       placeholder="Search"
       :delay="300"
-      append-to="self"
+      append-to="header"
       @complete="search"
       @option-select="select"
       @focus="handleFocus"

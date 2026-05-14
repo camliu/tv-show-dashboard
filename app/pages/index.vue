@@ -5,7 +5,7 @@ if (error.value) throw error.value;
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 mb-20">
+  <div class="flex flex-col gap-14 mb-20">
     <h1 class="sr-only">
       TV Show Dashboard
     </h1>

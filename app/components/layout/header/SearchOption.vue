@@ -2,26 +2,30 @@
 import { format, parseISO } from 'date-fns';
 
 const { show } = defineProps<{ show: Show }>();
-const imgLoaded = ref(false);
 </script>
 
 <template>
   <div class="flex items-center gap-3">
     <NuxtImg
-      v-if="show.image"
+      v-slot="{ imgAttrs, isLoaded }"
       :src="show.image"
-      :alt="show.name"
       width="48"
       height="48"
       format="webp"
-      loading="lazy"
-      :class="['object-cover rounded size-12', { 'opacity-0': !imgLoaded }]"
-      @load="imgLoaded = true"
-    />
-    <div
-      v-else
-      class="size-12 rounded bg-zinc-100 shrink-0"
-    />
+      custom
+    >
+      <img
+        v-if="show.image"
+        v-bind="imgAttrs"
+        :alt="show.name"
+        loading="lazy"
+        :class="['rounded size-12 text-transparent', { 'bg-zinc-100': !isLoaded }]"
+      >
+      <div
+        v-else
+        class="size-12 shrink-0 rounded bg-zinc-100"
+      />
+    </NuxtImg>
     <div class="flex flex-col gap-0.5">
       <span>{{ show.name }}</span>
       <time
