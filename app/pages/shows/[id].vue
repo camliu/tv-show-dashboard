@@ -1,13 +1,16 @@
 <script setup lang="ts">
 const route = useRoute();
-const { data: show, error } = await useShowDetail(route.params.id as string);
+const { data: showData, error } = await useShow(route.params.id as string);
 
 if (error.value) throw error.value;
+if (!showData.value) throw createError({ statusCode: 404 });
 
-const { loaded: imgLoaded } = useImgLoad(`img-loaded-${route.params.id}`, !!show.value?.imageOriginal);
+const show = showData.value;
+
+const { loaded: imgLoaded } = useImgLoad(`img-loaded-${route.params.id}`, !!show.imageOriginal);
 
 useSeoMeta({
-  title: `${show.value!.name} — TV Show Dashboard`,
+  title: `${show.name} — TV Show Dashboard`,
 });
 </script>
 

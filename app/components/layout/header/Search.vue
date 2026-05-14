@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const {
-  query, suggestions, search, select,
+  query, suggestions, searchError, search, select,
 } = useShowSearch();
 
 const autocomplete = ref();
@@ -54,7 +54,9 @@ function handleFocus() {
         <LazyLayoutHeaderSearchOption :show="show" />
       </template>
       <template #empty>
-        <span class="search-empty-message text-sm text-zinc-500">No shows found</span>
+        <span class="search-empty-message text-sm text-zinc-500">
+          {{ searchError ? 'Search unavailable' : 'No shows found' }}
+        </span>
       </template>
     </AutoComplete>
   </div>

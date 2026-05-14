@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { groupedShows, status } = useShowList();
+const { groupedShows, status, error } = useShows();
+
+if (error.value) throw error.value;
 </script>
 
 <template>

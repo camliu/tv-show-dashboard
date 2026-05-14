@@ -1,25 +1,20 @@
 <script setup lang="ts">
 import type { H3Error } from 'h3';
 
-const props = defineProps<{ error: H3Error }>();
+const { error } = defineProps<{ error: H3Error }>();
 
-const errorMap: Record<number, {
-  message: string
-  detail: string
-}> = {
+const defaultError: Record<number, { data: { detail: string } }> = {
   404: {
-    message: 'Page not found',
-    detail: 'The page you\'re looking for doesn\'t exist.',
+    data: { detail: 'The page you\'re looking for doesn\'t exist.' },
   },
   500: {
-    message: 'Something went wrong',
-    detail: 'An unexpected error occurred.',
+    data: { detail: 'An unexpected error occurred.' },
   },
 };
 
-const errorInfo = computed(() => errorMap[props.error.statusCode] ?? errorMap[500]!);
-const message = computed(() => props.error.statusMessage || errorInfo.value.message);
-const detail = computed(() => errorInfo.value.detail);
+const errorInfo = defaultError[error.statusCode] ?? defaultError[500]!;
+const statusMessage = error.statusMessage;
+const message = errorInfo.data.detail;
 </script>
 
 <template>
@@ -32,10 +27,10 @@ const detail = computed(() => errorInfo.value.detail);
         aria-hidden="true"
       />
       <h1 class="text-xl font-semibold">
-        {{ message }}
+        {{ statusMessage }}
       </h1>
       <p class="opacity-60 text-sm">
-        {{ detail }}
+        {{ message }}
       </p>
       <BaseHomeLink class="mt-8" />
     </div>

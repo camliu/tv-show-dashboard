@@ -1,14 +1,13 @@
 import { groupShowsByGenre } from '~~/shared/utils/show-transformer';
 
-export const useShowList = () => {
+export const useShows = () => {
+  const { data: cachedShows } = useNuxtData<Show[]>('shows');
+
   const { data, status, error } = useFetch<Show[]>('/api/shows', {
+    key: 'shows',
     server: false,
     lazy: true,
-    getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key],
-  });
-
-  watchEffect(() => {
-    if (error.value) showError(error.value);
+    getCachedData: () => cachedShows.value ?? undefined,
   });
 
   const groupedShows = computed(() =>
@@ -18,5 +17,6 @@ export const useShowList = () => {
   return {
     groupedShows,
     status,
+    error,
   };
 };
