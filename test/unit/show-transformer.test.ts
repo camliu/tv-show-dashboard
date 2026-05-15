@@ -25,7 +25,6 @@ describe('sortShowsByRating', () => {
     const result = sortShowsByRating(mockShowsForTransformer);
     const tiedIdx = result.indexOf(mockShowTiedRating);
     const highIdx = result.indexOf(mockShowHighRating);
-    // Tied (index 2 in input) came before High (index 3), so must still come first
     expect(tiedIdx).toBeLessThan(highIdx);
   });
 

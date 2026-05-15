@@ -2,13 +2,13 @@
 import { format, parseISO } from 'date-fns';
 import DOMPurify from 'isomorphic-dompurify';
 
-const props = defineProps<{ show: Show }>();
+const { show } = defineProps<{ show: Show }>();
 
 const airInfo = computed(() => {
   try {
-    if (!props.show.premiered) return '—';
-    const start = format(parseISO(props.show.premiered), 'MMMM d, yyyy');
-    const end = props.show.ended ? format(parseISO(props.show.ended), 'MMMM d, yyyy') : null;
+    if (!show.premiered) return '—';
+    const start = format(parseISO(show.premiered), 'MMMM d, yyyy');
+    const end = show.ended ? format(parseISO(show.ended), 'MMMM d, yyyy') : null;
     return end ? `${start} — ${end}` : `${start} — present`;
   }
   catch {
@@ -16,7 +16,7 @@ const airInfo = computed(() => {
   }
 });
 
-const sanitizedSummary = computed(() => DOMPurify.sanitize(props.show.summary ?? ''));
+const sanitizedSummary = computed(() => DOMPurify.sanitize(show.summary ?? ''));
 </script>
 
 <template>

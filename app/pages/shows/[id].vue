@@ -29,7 +29,7 @@ useSeoMeta({
             custom
             @error="imgError = true"
           >
-            <LazyBaseImagePlaceholder v-if="imgError || !show.imageOriginal" />
+            <LazyBaseImageFallback v-if="imgError || !show.imageOriginal" />
             <img
               v-else-if="isLoaded"
               v-bind="imgAttrs"

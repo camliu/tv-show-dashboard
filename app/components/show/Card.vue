@@ -9,7 +9,7 @@ const loaded = ref(!show.image);
 <template>
   <div class="w-52">
     <ShowCardSkeleton
-      v-if="!loaded"
+      v-if="!loaded && show.image"
     />
     <NuxtLink
       v-show="loaded"
@@ -18,23 +18,17 @@ const loaded = ref(!show.image);
     >
       <div class="h-72 overflow-hidden rounded-lg">
         <NuxtImg
-          v-slot="{ imgAttrs }"
+          v-if="show.image"
           :src="show.image"
+          :alt="show.name"
           width="210"
           height="295"
           format="webp"
           densities="1"
-          custom
-        >
-          <img
-            v-if="show.image"
-            v-bind="imgAttrs"
-            :alt="show.name"
-            class="transition-transform duration-300 hover:scale-105"
-            @load="loaded = true"
-          >
-          <LazyBaseImagePlaceholder v-else />
-        </NuxtImg>
+          class="transition-transform duration-300 hover:scale-105"
+          @load="loaded = true"
+        />
+        <LazyBaseImageFallback v-else />
       </div>
       <div class="flex flex-col gap-0.5 font-medium">
         <h3>{{ show.name }}</h3>

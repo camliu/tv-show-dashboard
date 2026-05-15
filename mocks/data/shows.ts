@@ -42,7 +42,6 @@ export const mockShowNullRating: Show = {
   genres: ['Comedy'],
 };
 
-// Intentionally unsorted: mid, null, tied, high — exercises all sort branches
 export const mockShowsForTransformer: Show[] = [
   mockShowMidRatingNoGenres,
   mockShowNullRating,

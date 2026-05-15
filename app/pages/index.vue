@@ -16,15 +16,20 @@ if (error.value) throw error.value;
           :key="n"
         />
       </template>
-
-      <template v-else>
-        <ShowGroupDeferred
-          v-for="[genre, items] in groupedShows"
-          :key="genre"
+      <BaseDeferred
+        v-for="[genre, items] in groupedShows"
+        v-else
+        :key="genre"
+        root-margin="300px"
+      >
+        <ShowGroup
           :genre="genre"
           :shows="items"
         />
-      </template>
+        <template #placeholder>
+          <ShowGroupSkeleton />
+        </template>
+      </BaseDeferred>
     </ClientOnly>
   </div>
 </template>
