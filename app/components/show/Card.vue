@@ -7,7 +7,7 @@ const loaded = ref(!show.image);
 </script>
 
 <template>
-  <div class="w-52">
+  <div>
     <ShowCardSkeleton
       v-if="!loaded && show.image"
     />
@@ -16,7 +16,7 @@ const loaded = ref(!show.image);
       :to="`/shows/${show.id}`"
       class="group flex flex-col gap-1.5"
     >
-      <div class="h-72 overflow-hidden rounded-lg">
+      <div class="h-72 w-52 overflow-hidden rounded-lg">
         <NuxtImg
           v-if="show.image"
           :src="show.image"

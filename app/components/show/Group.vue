@@ -17,7 +17,6 @@ const { genre, shows } = defineProps<{
       <BaseDeferred
         v-for="show in shows"
         :key="show.id"
-        class="shrink-0 w-52"
         :root="scrollContainer"
         root-margin="0px 300px 0px 0px"
       >
