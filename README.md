@@ -122,6 +122,7 @@ mocks/
 configs/               # Third-party configuration (PrimeVue theme)
 test/                  # Unit and integration tests (Vitest)
 tests/                 # E2E tests (Playwright)
+└── smoke/             # Smoke tests against deployed URL
 ```
 
 ---
@@ -156,6 +157,7 @@ pnpm typecheck    Type check
 pnpm test         Run unit and component tests
 pnpm test:e2e     Run Playwright e2e tests
 pnpm test:e2e:ui  Run Playwright tests in UI mode
+pnpm test:smoke   Run Playwright smoke tests against production
 ```
 
 ---
@@ -165,30 +167,28 @@ pnpm test:e2e:ui  Run Playwright tests in UI mode
 - **Unit** (Vitest) — utilities and composables
 - **Integration** (Vitest + MSW) — server routes with mocked TVmaze API
 - **E2E** (Playwright + MSW + axe) — full browser flow with accessibility checks
-
-E2E tests use `.env.test` automatically, no extra setup needed.
+- **Smoke** (Playwright) — critical flows against the deployed production URL
 
 ---
 
 ## CI/CD
 
-GitHub Actions orchestrates checks across three stages — fast build feedback on every push, full validation on PRs, and a safety net before production deploy on merge to `main`.
+GitHub Actions orchestrates checks across three stages — fast feedback on every push, full validation on PRs, and direct deploy on merge to `main` (trusting the PR gate).
 
 ```
-push (any branch)
-└── build.yml          — pnpm build
+push (any branch except main)
+├── _lint.yml         ┐
+├── _typecheck.yml    ┤ parallel
+└── _test.yml         ┘
 
 pull request → main
-├── lint.yml           — pnpm lint           ┐ parallel
-├── typecheck.yml      — pnpm typecheck      ┘
-├── test.yml           — pnpm test run       (needs lint, typecheck)
-├── e2e.yml            — pnpm test:e2e       (needs lint, typecheck, test)
-└── deploy.yml         — Azure preview deployment
+├── _e2e.yml          — pnpm test:e2e
+├── _deploy.yml       — Azure preview         (needs e2e)
+└── close             — Azure preview teardown (on PR close)
 
-merge to main
-├── lint.yml           ┐
-├── typecheck.yml      ┤ parallel
-├── build.yml          ┘
-├── test.yml           (needs lint, typecheck)
-└── deploy.yml         — Azure production deployment
+push to main (after merge)
+├── _deploy.yml       — Azure production deployment
+└── _smoke.yml        — Playwright smoke against production (needs deploy)
 ```
+
+Concurrency control cancels in-progress runs on `push.yml` and `pr.yml` when new commits arrive, and serializes `cd.yml` to prevent overlapping production deploys.

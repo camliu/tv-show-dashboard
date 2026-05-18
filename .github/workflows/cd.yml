@@ -1,0 +1,21 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy_production:
+    uses: ./.github/workflows/_deploy.yml
+    secrets: inherit
+
+  smoke_test:
+    needs: [deploy_production]
+    uses: ./.github/workflows/_smoke.yml
+    with:
+      url: https://brave-flower-010ffe710.7.azurestaticapps.net

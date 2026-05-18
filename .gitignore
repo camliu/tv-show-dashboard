@@ -24,6 +24,7 @@ logs
 .env.*
 !.env.example
 !.env.test
+!.env.smoke
 
 # Test coverage
 coverage/
