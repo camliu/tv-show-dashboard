@@ -12,14 +12,6 @@ export default defineConfig({
           environment: 'node',
         },
       },
-      {
-        test: {
-          name: 'handlers',
-          include: ['test/handlers/**/*.{test,spec}.ts'],
-          environment: 'node',
-          setupFiles: ['test/handlers/setup.ts'],
-        },
-      },
       await defineVitestProject({
         test: {
           name: 'nuxt',

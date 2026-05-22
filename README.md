@@ -73,7 +73,7 @@ Browse and search TV shows, organized by genre and sorted by rating — powered 
 - Intercepts requests at the network level, keeping tests realistic without hitting real APIs
 - Predictable mock data ensures stable, deterministic e2e test results
 
-#### Vitest | Unit and integration tests
+#### Vitest | Unit tests
 
 - Vite-native testing, integrates nicely with Nuxt 4's project structure
 - Fast test execution with minimal configuration
@@ -120,9 +120,11 @@ mocks/
 └── data/              # Mock show data for tests
 
 configs/               # Third-party configuration (PrimeVue theme)
-test/                  # Unit and integration tests (Vitest)
-tests/                 # E2E tests (Playwright)
-└── smoke/             # Smoke tests against deployed URL
+test/
+├── unit/              # Unit tests (Vitest)
+├── nuxt/              # Nuxt-environment tests (Vitest)
+└── e2e/               # E2E tests (Playwright)
+    └── smoke/         # Smoke tests against deployed URL
 ```
 
 ---
@@ -165,7 +167,6 @@ pnpm test:smoke   Run Playwright smoke tests against production
 ## Testing
 
 - **Unit** (Vitest) — utilities and composables
-- **Integration** (Vitest + MSW) — server routes with mocked TVmaze API
 - **E2E** (Playwright + MSW + axe) — full browser flow with accessibility checks
 - **Smoke** (Playwright) — critical flows against the deployed production URL
 

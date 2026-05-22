@@ -13,7 +13,7 @@ loadEnv({
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig<ConfigOptions>({
-  testDir: './tests',
+  testDir: './test/e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -41,7 +41,7 @@ export default defineConfig<ConfigOptions>({
     },
     {
       name: 'smoke',
-      testDir: './tests/smoke',
+      testDir: './test/e2e/smoke',
       timeout: 60_000,
       use: {
         ...devices['Desktop Chrome'],
