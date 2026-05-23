@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils',
     '@nuxt/a11y',
     '@primevue/nuxt-module',
+    '@pinia/nuxt',
   ],
 
   devtools: {

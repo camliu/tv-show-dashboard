@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { show } = defineProps<{
+const { show, headingLevel = 'h3' } = defineProps<{
   show: Show
+  headingLevel?: 'h2' | 'h3'
 }>();
 
 const loaded = ref(!show.image);
@@ -11,36 +12,44 @@ const loaded = ref(!show.image);
     <ShowCardSkeleton
       v-if="!loaded && show.image"
     />
-    <NuxtLink
+    <div
       v-show="loaded"
-      :to="`/shows/${show.id}`"
-      class="group flex flex-col gap-1.5"
+      class="relative"
     >
-      <div class="h-72 w-52 overflow-hidden rounded-lg">
-        <NuxtImg
-          v-if="show.image"
-          :src="show.image"
-          :alt="show.name"
-          width="210"
-          height="295"
-          format="webp"
-          densities="1"
-          class="transition-transform duration-300 hover:scale-105"
-          @load="loaded = true"
-        />
-        <LazyBaseImageFallback v-else />
-      </div>
-      <div class="flex flex-col gap-0.5 font-medium">
-        <h3>{{ show.name }}</h3>
-        <p class="flex items-center gap-1 text-sm text-zinc-500">
-          <Icon
-            name="lucide:star"
-            class="size-4"
-            aria-hidden="true"
+      <NuxtLink
+        :to="`/shows/${show.id}`"
+        class="group flex flex-col gap-1.5"
+      >
+        <div class="relative h-72 w-52 overflow-hidden rounded-lg">
+          <NuxtImg
+            v-if="show.image"
+            :src="show.image"
+            :alt="show.name"
+            width="210"
+            height="295"
+            format="webp"
+            densities="1"
+            class="transition-transform duration-300 hover:scale-105"
+            @load="loaded = true"
           />
-          <span>{{ show.rating != null ? show.rating.toFixed(1) : '—' }}</span>
-        </p>
-      </div>
-    </NuxtLink>
+          <LazyBaseImageFallback v-else />
+        </div>
+        <div class="flex flex-col gap-0.5 font-medium">
+          <component :is="headingLevel">{{ show.name }}</component>
+          <p class="flex items-center gap-1 text-sm text-zinc-500">
+            <Icon
+              name="lucide:star"
+              class="size-4"
+              aria-hidden="true"
+            />
+            <span>{{ show.rating != null ? show.rating.toFixed(1) : '—' }}</span>
+          </p>
+        </div>
+      </NuxtLink>
+      <ShowBookmark
+        :show="show"
+        class="absolute top-2 right-2"
+      />
+    </div>
   </div>
 </template>
