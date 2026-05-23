@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const route = useRoute();
-const { data: showData, error } = await useShow(route.params.id as string);
+const id = route.params.id as string;
+const { data: showData, error } = await useShow(id);
+const { data: castData } = await useShowCast(id);
 
 if (error.value) throw error.value;
 if (!showData.value) throw createError({ statusCode: 404 });
@@ -16,7 +18,7 @@ useSeoMeta({
 
 <template>
   <div class="flex flex-1 flex-col">
-    <div class="flex flex-1 items-center">
+    <div class="flex flex-col flex-1 items-center gap-6">
       <div class="flex flex-col sm:flex-row gap-6 sm:gap-14">
         <div class="sm:w-60 md:w-95 sm:h-90 md:h-140 shrink-0 rounded-xl overflow-hidden">
           <LazyNuxtImg
@@ -46,11 +48,18 @@ useSeoMeta({
         </div>
         <LazyShowProfile :show="show" />
       </div>
+
+      <LazyShowCast
+        v-if="castData?.length"
+        :cast="castData"
+        class="w-full"
+      />
     </div>
+
     <NuxtLink
       to="/"
       class="inline-flex items-center gap-1 text-sm opacity-60
-             hover:opacity-100 transition-opacity my-2 py-2"
+             hover:opacity-100 transition-opacity my-2 py-2 w-fit"
     >
       <Icon
         name="lucide:arrow-left"
