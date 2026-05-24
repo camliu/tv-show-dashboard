@@ -9,7 +9,7 @@ const { watchlist } = useWatchlistPinia();
     </h1>
     <ClientOnly>
       <div class="flex flex-wrap gap-4">
-        <ShowCard
+        <ShowsCard
           v-for="show in watchlist"
           :key="show.id"
           :show="show"

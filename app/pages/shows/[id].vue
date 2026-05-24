@@ -46,10 +46,10 @@ useSeoMeta({
             />
           </LazyNuxtImg>
         </div>
-        <LazyShowProfile :show="show" />
+        <LazyShowsProfile :show="show" />
       </div>
 
-      <LazyShowCast
+      <LazyShowsCast
         v-if="castData?.length"
         :cast="castData"
         class="w-full"

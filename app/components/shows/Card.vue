@@ -9,7 +9,7 @@ const loaded = ref(!show.image);
 
 <template>
   <div>
-    <ShowCardSkeleton
+    <ShowsCardSkeleton
       v-if="!loaded && show.image"
     />
     <div
@@ -46,7 +46,7 @@ const loaded = ref(!show.image);
           </p>
         </div>
       </NuxtLink>
-      <ShowBookmark
+      <ShowsBookmark
         :show="show"
         class="absolute top-2 right-2"
       />

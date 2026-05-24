@@ -1,8 +1,12 @@
 import { useScroll, useElementHover } from '@vueuse/core';
 
-export function useScrollArrows(section: Ref<HTMLElement | null>,
-  scrollContainer: Ref<HTMLElement | null>) {
-  const isHovered = useElementHover(section);
+interface ScrollArrowsOptions {
+  container: Ref<HTMLElement | null>
+  scrollContainer: Ref<HTMLElement | null>
+}
+
+export function useScrollArrows({ container, scrollContainer }: ScrollArrowsOptions) {
+  const isHovered = useElementHover(container);
   const { arrivedState } = useScroll(scrollContainer);
 
   function scrollRight() {

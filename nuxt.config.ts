@@ -17,6 +17,10 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
 
+  imports: {
+    dirs: ['composables', 'composables/**'],
+  },
+
   devtools: {
     enabled: true,
   },
