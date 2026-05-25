@@ -3,6 +3,7 @@ const route = useRoute();
 const id = route.params.id as string;
 const { data: showData, error } = await useShow(id);
 const { data: castData } = await useShowCast(id);
+const { data: seasonsData } = await useSeason(id);
 
 if (error.value) throw error.value;
 if (!showData.value) throw createError({ statusCode: 404 });
@@ -48,6 +49,12 @@ useSeoMeta({
         </div>
         <LazyShowsProfile :show="show" />
       </div>
+
+      <LazySeasonsList
+        v-if="seasonsData?.length"
+        :seasons="seasonsData"
+        class="w-full"
+      />
 
       <LazyShowsCast
         v-if="castData?.length"

@@ -52,6 +52,23 @@ export interface TvmazeEpisode {
   }
 }
 
+export interface TvmazeSeason {
+  id: number
+  url: string
+  number: number
+  name: string
+  episodeOrder: number
+  premiereDate: string | null
+  endDate: string | null
+  network: Network | null
+  webChannel: Network | null
+  image: ShowImage | null
+  summary: string | null
+  _links: {
+    self: { href: string }
+  }
+}
+
 export interface TvmazeCastMember {
   person: TvmazePerson
   character: TvmazeCharacter

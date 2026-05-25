@@ -20,3 +20,10 @@ export interface Actor {
   character: string
   image: string | undefined
 }
+
+export interface Season {
+  id: number
+  name: string
+  number: number
+  image: string | undefined
+}
