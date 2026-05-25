@@ -1,12 +1,12 @@
 import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
-import { useTvMaze } from '~~/server/utils/tvmaze';
+import { createTvMazeApiClient } from '~~/server/utils/createTvMazeApiClient';
 
 export default defineEventHandler(async (event) => {
   const { q } = getQuery(event);
 
   if (!q || typeof q !== 'string' || !q.trim()) return [];
 
-  const api = useTvMaze();
+  const api = createTvMazeApiClient();
 
   try {
     const data = await api<TvmazeSearchResult[]>(

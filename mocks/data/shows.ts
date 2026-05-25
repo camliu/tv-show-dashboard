@@ -42,6 +42,22 @@ export const mockShowNullRating: Show = {
   genres: ['Comedy'],
 };
 
+export const mockShowFull: Show = {
+  id: 1,
+  name: 'Under the Dome',
+  image: 'https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg',
+  imageOriginal: 'https://static.tvmaze.com/uploads/images/original_untouched/81/202627.jpg',
+  rating: 6.5,
+  genres: ['Drama', 'Science-Fiction', 'Thriller'],
+  summary: '<p>Under the Dome</p>',
+  status: 'Ended',
+  premiered: '2013-06-24',
+  ended: '2015-09-10',
+  network: 'CBS',
+  language: 'English',
+  runtime: 60,
+};
+
 export const mockShowsForTransformer: Show[] = [
   mockShowMidRatingNoGenres,
   mockShowNullRating,
