@@ -1,3 +1,3 @@
-import { showsHandlers } from './shows';
+import { tvmazeHandlers } from './tvmaze';
 
-export const handlers = [...showsHandlers];
+export const handlers = [...tvmazeHandlers];

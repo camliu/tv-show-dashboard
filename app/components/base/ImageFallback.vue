@@ -4,7 +4,7 @@
     flex-col items-center justify-center gap-2"
   >
     <Icon
-      name="lucide:ghost"
+      name="lucide:fish-symbol"
       class="text-3xl text-zinc-600"
     />
     <span class="text-sm text-zinc-600">No image</span>

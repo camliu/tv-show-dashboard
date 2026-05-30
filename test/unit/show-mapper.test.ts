@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mapShow } from '../../shared/utils/show-mapper';
-import { mockTvmazeShowFull, mockTvmazeShowSparse } from '../../mocks/data/tvmaze-shows';
+import { mockTvmazeShowFull, mockTvmazeShowNullable } from '../../mocks/data/tvmaze-shows';
 
 describe('mapShow', () => {
   it('should correctly map a full TVMaze show object', () => {
@@ -24,7 +24,7 @@ describe('mapShow', () => {
   });
 
   it('should handle missing data by providing interface-compliant fallbacks', () => {
-    const result = mapShow(mockTvmazeShowSparse);
+    const result = mapShow(mockTvmazeShowNullable);
 
     expect(result.image).toBeUndefined();
     expect(result.imageOriginal).toBeUndefined();

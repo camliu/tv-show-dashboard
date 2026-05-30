@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-3 mb-6">
+  <div class="flex flex-col gap-3">
     <Skeleton
       width="8rem"
       height="1.75rem"

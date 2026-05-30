@@ -2,11 +2,6 @@ import type { H3Error } from 'h3';
 import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
 import { useTvMaze } from '~~/server/utils/tvmaze';
 
-const errorMessages: Record<number, string> = {
-  404: 'Show not found',
-  500: 'We couldn\'t load this show',
-};
-
 export default cachedEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   const api = useTvMaze();
@@ -17,9 +12,17 @@ export default cachedEventHandler(async (event) => {
   }
   catch (e) {
     const statusCode = (e as H3Error).statusCode ?? 500;
+    if (statusCode === 404) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Show not found',
+        data: { detail: 'The show you\'re looking for doesn\'t exist.' },
+      });
+    }
     throw createError({
       statusCode,
-      statusMessage: errorMessages[statusCode] ?? 'Something went wrong',
+      statusMessage: 'We couldn\'t load this show',
+      data: { detail: 'An unexpected error occurred. Please try again later.' },
     });
   }
 }, {

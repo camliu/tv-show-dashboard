@@ -49,7 +49,7 @@ export const mockTvmazeShowFull: TvmazeShow = {
   },
 };
 
-export const mockTvmazeShowSparse: TvmazeShow = {
+export const mockTvmazeShowNullable: TvmazeShow = {
   id: 2,
   url: 'https://www.tvmaze.com/shows/2/sparse-show',
   name: 'Sparse Show',
@@ -95,5 +95,5 @@ export const mockTvmazeShowSparse: TvmazeShow = {
 
 export const mockTvmazeShowsList: TvmazeShow[] = [
   mockTvmazeShowFull,
-  mockTvmazeShowSparse,
+  mockTvmazeShowNullable,
 ];

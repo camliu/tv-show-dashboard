@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core';
 
-const props = defineProps<{
-  genre: string
-  shows: Show[]
+const { rootMargin, root } = defineProps<{
+  rootMargin?: string
+  root?: HTMLElement | null
 }>();
 
-const container = ref<HTMLElement | null>(null);
-const isVisible = useState(`group-visible-${props.genre}`, () => false);
+const container = useTemplateRef<HTMLElement>('container');
+const isVisible = ref(false);
 
 const { stop } = useIntersectionObserver(
   container,
@@ -17,17 +17,19 @@ const { stop } = useIntersectionObserver(
       stop();
     }
   },
-  { rootMargin: '300px' },
+  {
+    root: root ?? undefined,
+    rootMargin,
+  },
 );
 </script>
 
 <template>
   <div ref="container">
-    <ShowGroup
-      v-if="isVisible"
-      :genre="genre"
-      :shows="shows"
+    <slot v-if="isVisible" />
+    <slot
+      v-else
+      name="placeholder"
     />
-    <ShowGroupSkeleton v-else />
   </div>
 </template>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-const { groupedShows, status } = useShowList();
+const { groupedShows, status, error } = useShows();
+
+if (error.value) throw error.value;
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 mb-20">
+  <div class="flex flex-col gap-14 mb-20">
     <h1 class="sr-only">
       TV Show Dashboard
     </h1>
@@ -14,15 +16,13 @@ const { groupedShows, status } = useShowList();
           :key="n"
         />
       </template>
-
-      <template v-else>
-        <ShowGroupDeferred
-          v-for="[genre, items] in groupedShows"
-          :key="genre"
-          :genre="genre"
-          :shows="items"
-        />
-      </template>
+      <ShowGroup
+        v-for="[genre, items] in groupedShows"
+        v-else
+        :key="genre"
+        :genre="genre"
+        :shows="items"
+      />
     </ClientOnly>
   </div>
 </template>
