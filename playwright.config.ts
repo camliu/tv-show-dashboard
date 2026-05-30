@@ -10,6 +10,8 @@ loadEnv({
   quiet: true,
 });
 
+process.env.VITE_MSW = 'true';
+
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig<ConfigOptions>({

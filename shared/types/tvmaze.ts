@@ -29,6 +29,78 @@ export interface TvmazeShow {
   _links: Links
 }
 
+export interface TvmazeSeason {
+  id: number
+  url: string
+  number: number
+  name: string
+  episodeOrder: number
+  premiereDate: string | null
+  endDate: string | null
+  network: Network | null
+  webChannel: Network | null
+  image: ShowImage | null
+  summary: string | null
+  _links: {
+    self: { href: string }
+  }
+}
+
+export interface TvmazeEpisode {
+  id: number
+  url: string
+  name: string
+  season: number
+  number: number
+  type: string
+  airdate: string
+  airtime: string
+  airstamp: string
+  runtime: number | null
+  rating: Rating
+  image: ShowImage | null
+  summary: string | null
+  _links: {
+    self: { href: string }
+    show: {
+      href: string
+      name: string
+    }
+  }
+}
+
+export interface TvmazeCastMember {
+  person: TvmazePerson
+  character: TvmazeCharacter
+  self: boolean
+  voice: boolean
+}
+
+export interface TvmazePerson {
+  id: number
+  url: string
+  name: string
+  country: Country | null
+  birthday: string | null
+  deathday: string | null
+  gender: string
+  image: ShowImage | null
+  updated: number
+  _links: {
+    self: { href: string }
+  }
+}
+
+export interface TvmazeCharacter {
+  id: number
+  url: string
+  name: string
+  image: ShowImage | null
+  _links: {
+    self: { href: string }
+  }
+}
+
 interface Schedule {
   time: string
   days: string[]

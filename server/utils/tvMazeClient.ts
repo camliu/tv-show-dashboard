@@ -1,6 +1,6 @@
 import { TVMAZE_CONFIG } from '../../shared/config/tvmaze';
 
-export const useTvMaze = () => {
+export const tvMazeClient = () => {
   return $fetch.create({
     baseURL: TVMAZE_CONFIG.BASE_URL,
     headers: {

@@ -13,3 +13,17 @@ export interface Show {
   language: string
   runtime: number | null
 }
+
+export interface Actor {
+  id: number
+  name: string
+  character: string
+  image: string | undefined
+}
+
+export interface Season {
+  id: number
+  name: string
+  number: number
+  image: string | undefined
+}

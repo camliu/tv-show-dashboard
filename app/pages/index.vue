@@ -11,12 +11,12 @@ if (error.value) throw error.value;
     </h1>
     <ClientOnly>
       <template v-if="status === 'pending'">
-        <ShowGroupSkeleton
+        <ShowsGroupSkeleton
           v-for="n in 4"
           :key="n"
         />
       </template>
-      <ShowGroup
+      <ShowsGroup
         v-for="[genre, items] in groupedShows"
         v-else
         :key="genre"

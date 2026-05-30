@@ -26,10 +26,11 @@ export const useShowSearch = (router = useRouter()) => {
     }
   }
 
-  function select(event: { value: Show }) {
+  async function select(event: { value: Show }) {
     query.value = '';
     suggestions.value = [];
-    requestAnimationFrame(() => router.push(`/shows/${event.value.id}`));
+    await nextTick();
+    router.push(`/shows/${event.value.id}`);
   }
 
   return {
