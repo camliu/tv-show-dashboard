@@ -1,11 +1,11 @@
 import type { H3Error } from 'h3';
 import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
-import { createTvMazeApiClient } from '~~/server/utils/createTvMazeApiClient';
+import { tvMazeClient } from '~~/server/utils/tvMazeClient';
 
 export default cachedEventHandler(
   async (event) => {
     const id = getRouterParam(event, 'id');
-    const api = createTvMazeApiClient();
+    const api = tvMazeClient();
 
     try {
       const data = await api<TvmazeCastMember[]>(`${TVMAZE_CONFIG.ENDPOINTS.SHOWS}/${id}/cast`);

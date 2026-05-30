@@ -1,10 +1,10 @@
 import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
-import { createTvMazeApiClient } from '~~/server/utils/createTvMazeApiClient';
+import { tvMazeClient } from '~~/server/utils/tvMazeClient';
 import type { H3Error } from 'h3';
 
 export default cachedEventHandler(
   async (event) => {
-    const api = createTvMazeApiClient();
+    const api = tvMazeClient();
     const id = getRouterParam(event, 'id');
 
     try {
