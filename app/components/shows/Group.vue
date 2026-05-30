@@ -20,9 +20,12 @@ const { genre, shows } = defineProps<{
         :root="scrollContainer"
         root-margin="0px 300px 0px 0px"
       >
-        <ShowCard :show="show" />
+        <ShowsCard
+          for
+          :show="show"
+        />
         <template #placeholder>
-          <ShowCardSkeleton />
+          <ShowsCardSkeleton />
         </template>
       </BaseDeferred>
     </BaseCarousel>

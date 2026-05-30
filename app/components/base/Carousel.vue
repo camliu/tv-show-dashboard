@@ -3,7 +3,10 @@ const container = useTemplateRef<HTMLElement>('container');
 const scrollContainer = useTemplateRef<HTMLElement>('scrollContainer');
 const {
   isHovered, atStart, atEnd, scrollRight, scrollToStart,
-} = useScrollArrows(container, scrollContainer);
+} = useScrollArrows({
+  container,
+  scrollContainer,
+});
 
 const arrowBase = 'absolute inset-y-0 z-10 flex items-center w-10 p-0 border-none cursor-pointer text-black from-white/85 to-transparent';
 </script>

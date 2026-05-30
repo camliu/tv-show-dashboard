@@ -5,7 +5,7 @@
       height="1.75rem"
     />
     <div class="flex gap-4">
-      <ShowCardSkeleton
+      <ShowsCardSkeleton
         v-for="n in 6"
         :key="n"
       />

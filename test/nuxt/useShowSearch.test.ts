@@ -5,24 +5,10 @@ import type {
   AutoCompleteCompleteEvent,
   AutoCompleteOptionSelectEvent,
 } from 'primevue/autocomplete';
+import { useShowSearch } from '../../app/composables/shows/useShowSearch';
+import { mockShowFull } from '../../mocks/data/shows';
 
-const mockShow: Show = {
-  id: 1,
-  name: 'Under the Dome',
-  image: 'https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg',
-  imageOriginal: 'https://static.tvmaze.com/uploads/images/original_untouched/81/202627.jpg',
-  rating: 6.5,
-  genres: ['Drama', 'Science-Fiction', 'Thriller'],
-  summary: '<p>Under the Dome</p>',
-  status: 'Ended',
-  premiered: '2013-06-24',
-  ended: '2015-09-10',
-  network: 'CBS',
-  language: 'English',
-  runtime: 60,
-};
-
-function setup(fetchResult: Show[] = [mockShow]) {
+function setup(fetchResult: Show[] = [mockShowFull]) {
   vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(fetchResult));
   const router = { push: vi.fn() };
   const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
@@ -34,7 +20,6 @@ function setup(fetchResult: Show[] = [mockShow]) {
 
 beforeEach(() => {
   vi.unstubAllGlobals();
-  vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => cb(0));
 });
 
 describe('useShowSearch', () => {
@@ -43,12 +28,12 @@ describe('useShowSearch', () => {
 
     await composable.search({ query: 'dome' } as AutoCompleteCompleteEvent);
 
-    expect(composable.suggestions.value).toEqual([mockShow]);
+    expect(composable.suggestions.value).toEqual([mockShowFull]);
   });
 
   it('clears suggestions for empty query', async () => {
     const { composable } = setup();
-    composable.suggestions.value = [mockShow];
+    composable.suggestions.value = [mockShowFull];
 
     await composable.search({ query: '' } as AutoCompleteCompleteEvent);
 
@@ -57,7 +42,7 @@ describe('useShowSearch', () => {
 
   it('clears suggestions for whitespace-only query', async () => {
     const { composable } = setup();
-    composable.suggestions.value = [mockShow];
+    composable.suggestions.value = [mockShowFull];
 
     await composable.search({ query: '   ' } as AutoCompleteCompleteEvent);
 
@@ -68,27 +53,27 @@ describe('useShowSearch', () => {
     vi.stubGlobal('$fetch', vi.fn().mockRejectedValue(new Error('Network error')));
     const router = { push: vi.fn() };
     const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
-    composable.suggestions.value = [mockShow];
+    composable.suggestions.value = [mockShowFull];
 
     await composable.search({ query: 'dome' } as AutoCompleteCompleteEvent);
 
     expect(composable.suggestions.value).toEqual([]);
   });
 
-  it('navigates to show page on select', () => {
+  it('navigates to show page on select', async () => {
     const { composable, router } = setup();
 
-    composable.select({ value: mockShow } as AutoCompleteOptionSelectEvent);
+    await composable.select({ value: mockShowFull } as AutoCompleteOptionSelectEvent);
 
     expect(router.push).toHaveBeenCalledWith('/shows/1');
   });
 
-  it('resets query and suggestions on select', () => {
+  it('resets query and suggestions on select', async () => {
     const { composable } = setup();
     composable.query.value = 'dome';
-    composable.suggestions.value = [mockShow];
+    composable.suggestions.value = [mockShowFull];
 
-    composable.select({ value: mockShow } as AutoCompleteOptionSelectEvent);
+    await composable.select({ value: mockShowFull } as AutoCompleteOptionSelectEvent);
 
     expect(composable.query.value).toBe('');
     expect(composable.suggestions.value).toEqual([]);
@@ -115,10 +100,10 @@ describe('useShowSearch', () => {
 
     const router = { push: vi.fn() };
     const composable = useShowSearch(router as unknown as ReturnType<typeof useRouter>);
-    composable.suggestions.value = [mockShow];
+    composable.suggestions.value = [mockShowFull];
 
     await composable.search({ query: 'dome' } as AutoCompleteCompleteEvent);
 
-    expect(composable.suggestions.value).toEqual([mockShow]);
+    expect(composable.suggestions.value).toEqual([mockShowFull]);
   });
 });

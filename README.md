@@ -1,99 +1,59 @@
 # TV Show Dashboard
 
-Browse and search TV shows, organized by genre and sorted by rating — powered by the [TVmaze API](https://www.tvmaze.com/api).
+Browse and search TV shows
 
-**Live:** [https://brave-flower-010ffe710.7.azurestaticapps.net/](https://brave-flower-010ffe710.7.azurestaticapps.net/)
-
----
-
-## Table of contents
-
-- [Features](#features)
-- [Tech stack](#tech-stack)
-- [Project structure](#project-structure)
-- [Requirements](#requirements)
-- [Getting started](#getting-started)
-- [Scripts](#scripts)
-- [Testing](#testing)
-- [CI/CD](#cicd)
+**Live demo:** [brave-flower-010ffe710.7.azurestaticapps.net](https://brave-flower-010ffe710.7.azurestaticapps.net/)
 
 ---
 
 ## Features
 
-- **Show list grouped by genre** — browse all shows organized into genre carousels with horizontal scrolling, sorted by rating
-- **Show detail page** — view extensive information for each show
-- **Search by name** — search for any TV show by name with input search in the header
-- **Responsive design** — Optimized UI for mobile and desktop
-- **Error handling** — consistent error page for 404s and unexpected failures
+- Genre carousels with horizontal scrolling, sorted by rating
+- Show detail page with cast, seasons, and metadata
+- Live search by show name
+- Responsive layout for mobile and desktop
+- Accessible — automated a11y checks on every CI run
 
 ---
 
-## Tech stack
+## Stack
 
-#### TypeScript | Language
+| Layer     | Tech                                   |
+| --------- | -------------------------------------- |
+| Framework | Nuxt 4 (SSR)                           |
+| Language  | TypeScript                             |
+| Styling   | Tailwind CSS + PrimeVue                |
+| State     | Pinia                                  |
+| Icons     | Nuxt Icon + Lucide                     |
+| Testing   | Vitest · Playwright · MSW · axe-core   |
+| CI/CD     | GitHub Actions + Azure Static Web Apps |
 
-- End-to-end type safety across the app, server routes, and shared utilities
-- Interfaces shared between client and server via the `shared/` directory
+---
 
-#### Nuxt 4 | Framework
+## Getting started
 
-- SSR support, SEO-friendly rendering
-- Rich native tooling and module ecosystem (ESLint, test utils, a11y)
-- Opinionated structure with auto-imports reduces boilerplate
+```bash
+pnpm install
+pnpm dev
+```
 
-#### Tailwind CSS | Styling
+No environment variables required — the app proxies the public [TVmaze API](https://www.tvmaze.com/api) through server routes.
 
-- Responsive design is straightforward with utility classes
+---
 
-#### PrimeVue | UI component library
+## Scripts
 
-- Reliable, highly customizable components that leave full control over layout and behavior
-
-#### Nuxt Icon + Lucide | Icons
-
-- Lightweight icon set with a consistent design language
-
-#### Nuxt A11y | Accessibility
-
-- Accessibility hints and auditing during development
-
-#### Pinia | State management
-
-- Manages search state (query + suggestions) across components
-- Integrates naturally with the Composition API
-
-#### VueUse | Composable utilities
-
-- Powerful utility library with broad coverage of common browser and Vue patterns
-- Reduces boilerplate across the codebase
-
-#### MSW | API mocking
-
-- Intercepts requests at the network level, keeping tests realistic without hitting real APIs
-- Predictable mock data ensures stable, deterministic e2e test results
-
-#### Vitest | Unit tests
-
-- Vite-native testing, integrates nicely with Nuxt 4's project structure
-- Fast test execution with minimal configuration
-
-#### Playwright | E2E tests
-
-- Tests the full user flow against a real Nuxt server with MSW-mocked responses
-- axe-core integration for automated accessibility checks on each page
-
-#### Husky + lint-staged | Pre-commit hooks
-
-- Runs lint on staged files before commit to catch issues early
-
-#### GitHub Actions | CI/CD
-
-- Orchestrates lint, typecheck, test, e2e, and deploy jobs on every push and PR
-
-#### Azure Static Web Apps | Hosting
-
-- Provides production deployment with built-in GitHub Actions integration
+```
+pnpm dev            Start development server
+pnpm build          Build for production
+pnpm preview        Preview production build
+pnpm lint           Lint
+pnpm typecheck      Type check
+pnpm test           Unit and component tests (Vitest)
+pnpm test:e2e       E2E tests (Playwright + MSW)
+pnpm test:e2e:ui    Playwright UI mode
+pnpm test:smoke     Smoke tests against production
+```
 
 ---
 
@@ -106,10 +66,10 @@ app/
 ├── pages/             # File-based routes
 ├── stores/            # Pinia stores
 ├── layouts/           # App shell
-└── error.vue          # Global error page (404, 500)
+└── error.vue          # Global error page
 
 server/
-└── api/shows/         # Server routes proxying the TVmaze API
+└── api/shows/         # Server routes proxying TVmaze
 
 shared/
 ├── types/             # Shared TypeScript interfaces
@@ -117,79 +77,25 @@ shared/
 
 mocks/
 ├── handlers/          # MSW request handlers
-└── data/              # Mock show data for tests
+└── data/              # Mock show data
 
-configs/               # Third-party configuration (PrimeVue theme)
 test/
-├── unit/              # Unit tests (Vitest)
-├── nuxt/              # Nuxt-environment tests (Vitest)
-└── e2e/               # E2E tests (Playwright)
-    └── smoke/         # Smoke tests against deployed URL
+├── unit/              # Vitest unit tests
+└── e2e/               # Playwright tests
+    └── smoke/         # Smoke tests against production
 ```
-
----
-
-## Requirements
-
-- Node.js 22 (LTS) — matches the version pinned in CI and the Azure Static Web Apps runtime
-- pnpm 10 — faster installs and reduced disk space via a shared global store
-
----
-
-## Getting started
-
-```bash
-pnpm install
-pnpm dev
-```
-
-No environment variables are required. The app connects to the TVmaze public API directly.
-
----
-
-## Scripts
-
-```
-pnpm dev          Start development server
-pnpm build        Build for production
-pnpm preview      Preview production build
-pnpm lint         Lint
-pnpm lint:fix     Lint and auto-fix
-pnpm typecheck    Type check
-pnpm test         Run unit and component tests
-pnpm test:e2e     Run Playwright e2e tests
-pnpm test:e2e:ui  Run Playwright tests in UI mode
-pnpm test:smoke   Run Playwright smoke tests against production
-```
-
----
-
-## Testing
-
-- **Unit** (Vitest) — utilities and composables
-- **E2E** (Playwright + MSW + axe) — full browser flow with accessibility checks
-- **Smoke** (Playwright) — critical flows against the deployed production URL
 
 ---
 
 ## CI/CD
 
-GitHub Actions orchestrates checks across three stages — fast feedback on every push, full validation on PRs, and direct deploy on merge to `main` (trusting the PR gate).
+Three pipeline stages — fast feedback on every push, full validation on PRs, production deploy on merge.
 
 ```
-push (any branch except main)
-├── _lint.yml         ┐
-├── _typecheck.yml    ┤ parallel
-└── _test.yml         ┘
+push (non-main)       lint · typecheck · test (parallel)
 
-pull request → main
-├── _e2e.yml          — pnpm test:e2e
-├── _deploy.yml       — Azure preview         (needs e2e)
-└── close             — Azure preview teardown (on PR close)
+pull request → main   e2e → Azure preview deploy
+                      Azure preview teardown on PR close
 
-push to main (after merge)
-├── _deploy.yml       — Azure production deployment
-└── _smoke.yml        — Playwright smoke against production (needs deploy)
+push to main          Azure production deploy → smoke tests
 ```
-
-Concurrency control cancels in-progress runs on `push.yml` and `pr.yml` when new commits arrive, and serializes `cd.yml` to prevent overlapping production deploys.

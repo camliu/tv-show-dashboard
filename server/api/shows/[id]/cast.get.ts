@@ -3,23 +3,23 @@ import { TVMAZE_CONFIG } from '~~/shared/config/tvmaze';
 import { tvMazeClient } from '~~/server/utils/tvMazeClient';
 
 export default cachedEventHandler(
-  async () => {
+  async (event) => {
+    const id = getRouterParam(event, 'id');
     const api = tvMazeClient();
 
     try {
-      const data = await api<TvmazeShow[]>(TVMAZE_CONFIG.ENDPOINTS.SHOWS);
-      return data.map(mapShow);
+      const data = await api<TvmazeCastMember[]>(`${TVMAZE_CONFIG.ENDPOINTS.SHOWS}/${id}/cast`);
+      return data.map(mapCastMember);
     }
     catch (e) {
       const statusCode = (e as H3Error).statusCode ?? 500;
       throw createError({
         statusCode,
-        statusMessage: 'We couldn\'t load the shows',
+        statusMessage: 'We couldn\'t load the cast',
       });
     }
-  },
-  {
+  }, {
     maxAge: 60 * 60,
-    name: 'show-list',
-  },
-);
+    name: 'cast-list',
+    getKey: event => `cast-${getRouterParam(event, 'id')}`,
+  });
