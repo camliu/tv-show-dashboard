@@ -8,13 +8,24 @@ const { watchlist } = useWatchlistPinia();
       Watchlist
     </h1>
     <ClientOnly>
-      <div class="flex flex-wrap gap-4">
+      <div
+        v-if="watchlist.length"
+        class="flex flex-wrap gap-4"
+      >
         <ShowsCard
           v-for="show in watchlist"
           :key="show.id"
           :show="show"
           heading-level="h2"
         />
+      </div>
+      <div
+        v-else
+        class="flex flex-col items-center justify-center text-center gap-2 py-16"
+      >
+        <p class="opacity-60 text-sm">
+          Your watchlist is empty. Bookmark a show to see it here.
+        </p>
       </div>
     </ClientOnly>
   </div>
