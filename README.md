@@ -2,7 +2,7 @@
 
 Browse and search TV shows
 
-**Live demo:** [brave-flower-010ffe710.7.azurestaticapps.net](https://brave-flower-010ffe710.7.azurestaticapps.net/)
+**Live demo:** [happy-sea-092e38b03.7.azurestaticapps.net](https://happy-sea-092e38b03.7.azurestaticapps.net)
 
 ---
 
