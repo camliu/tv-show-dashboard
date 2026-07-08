@@ -3,6 +3,12 @@ const { genre, shows } = defineProps<{
   genre: string
   shows: Show[]
 }>();
+
+const loadedIds = ref(new Set<number>());
+
+function isLoaded(show: Show) {
+  return !show.image || loadedIds.value.has(show.id);
+}
 </script>
 
 <template>
@@ -20,9 +26,11 @@ const { genre, shows } = defineProps<{
         :root="scrollContainer"
         root-margin="0px 300px 0px 0px"
       >
+        <ShowsCardSkeleton v-if="!isLoaded(show)" />
         <ShowsCard
-          for
+          v-show="isLoaded(show)"
           :show="show"
+          @load="loadedIds.add(show.id)"
         />
         <template #placeholder>
           <ShowsCardSkeleton />
